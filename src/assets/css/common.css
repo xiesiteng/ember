@@ -1,0 +1,107 @@
+.flex {
+  display: flex;
+}
+.flex-wrap{
+	display: flex;
+	flex-wrap: wrap;
+	align-content: flex-start;
+}
+.flex-end{
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+/* flex垂直排列 */
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+/* flex全居中 */
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* flex竖向全居中 */
+.flex-center-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+/* flex垂直居中 */
+.flex-center-y {
+  display: flex;
+  align-items: center;
+}
+/* flex水平居中 */
+.flex-center-x {
+  display: flex;
+  justify-content: center;
+}
+/* flex左右靠边 */
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+/* 水平均匀分布 */
+.flex-around{
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+
+input, select, button {
+  border: none;
+  outline: none;
+  padding: 0;
+}
+p, h3 {
+  margin: 0;
+  padding: 0;
+}
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+
+/* 子元素超过父元素宽度可横向滚动 */
+.full-x{overflow-x: scroll;overflow-y: hidden;white-space: nowrap;width: 100%;}
+/* 隐藏滚动条 */
+.full-x::-webkit-scrollbar {display:none}
+/* 多行文字超出显示省略号 */
+.ellipsis-two{overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;}
+/* 单行文字超出显示省略号 */
+.ellipsis{white-space:nowrap;overflow: hidden;text-overflow: ellipsis;}
+
+/* 左入动画 */
+@keyframes leftIn {
+  from{
+    left: -600px;
+    opacity: 0;
+  }
+  to{
+    left: 0;
+    opacity: 1;
+  }
+}
+/* 右入动画 */
+@keyframes rightIn {
+  from{
+    right: -600px;
+    opacity: 0;
+  }
+  to{
+    right: 0;
+    opacity: 1;
+  }
+}
+/* 背景波浪 */
+@keyframes wave{
+  0%{background-size: 100% 310px;}
+  50%{background-size: 150% 310px;}
+  100%{background-size: 100% 310px;}
+}
