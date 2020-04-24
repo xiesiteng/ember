@@ -26,6 +26,7 @@ export default {
 
 <style scoped lang="scss">
   .submit-main{
+    overflow-x: hidden;
     .top-module{
       width: 100%;
       height: 350px;

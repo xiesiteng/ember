@@ -99,9 +99,4 @@ a {
     opacity: 1;
   }
 }
-/* 背景波浪 */
-@keyframes wave{
-  0%{background-size: 100% 310px;}
-  50%{background-size: 150% 310px;}
-  100%{background-size: 100% 310px;}
-}
+

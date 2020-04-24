@@ -1,29 +1,29 @@
 <template>
-  <div class="agreement-main" >
-    <custom-header title="微信登录" :backShow="backShow"></custom-header>
+  <div>
     <!-- ipad端用户登录界面 -->
-    <ipad-login v-if="$store.state.isPad"></ipad-login>
+    <ipad-show v-if="$store.state.isPad"></ipad-show>
     <!-- 手机端用户登录界面 -->
-    <div v-else>
-      <div class="ag-wrap">
-        <p class="title">微信登录用户需知</p>
-        <div class="content" v-html="book"></div>
-        <div class="flex-center already">
-          <span :class="['default', active ? 'default-active' : '']" @click="pick()"></span>
-          <p>我已阅读</p>
+    <div class="agreement-main" v-else>
+      <custom-header title="微信登录" :backShow="backShow"></custom-header>
+        <div class="ag-wrap">
+          <p class="title">微信登录用户需知</p>
+          <div class="content" v-html="book"></div>
+          <div class="flex-center already">
+            <span :class="['default', active ? 'default-active' : '']" @click="pick()"></span>
+            <p>我已阅读</p>
+          </div>
         </div>
-      </div>
-      <custom-button btnText="微信登录" @tap="doLogin()"></custom-button>
+        <custom-button btnText="微信登录" @tap="doLogin()"></custom-button>
     </div>
+    <!-- 手机端用户登录界面end -->
   </div>
 </template>
 
 <script>
-import ipadLogin from './components/sweepCodeLogin'
+import ipadShow from './components/ipadShow'
 export default {
   data () {
     return {
-      // isPad: true, // 设备是否为ipad
       backShow: false, // 头部组件显示返回箭头
       active: false, // 我已阅读是否激活
       book: '尊敬的贵宾：<br/>' +
@@ -38,7 +38,7 @@ export default {
     }
   },
   components: {
-    ipadLogin
+    ipadShow
   },
   created () {
     this.$judgeUserAgent()
@@ -61,11 +61,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
-  .ag-wrap{
-    margin-bottom: 40px!important;
-  }
-}
   .agreement-main{
     background: #fafafa url('~@/assets/images/nav-bg.png') no-repeat;
     background-size: 100% 310px;
@@ -77,7 +72,7 @@ export default {
       height: 700px;
       border-radius: 30px;
       background-color: #fff;
-      margin: 0 auto 100px;
+      margin: 50px auto 100px;
       padding: 0 30px;
       box-sizing: border-box;
       .title{

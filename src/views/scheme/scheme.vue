@@ -1,28 +1,22 @@
 <template>
   <div class="scheme-main">
     <custom-header title="套餐种类"></custom-header>
-    <div 
-    class="scheme-wrap"
-    v-infinite-scroll="loadMore()"
-    :infinite-scroll-disabled="loading"
-    :infinite-scroll-distance="distance"
-    :infinite-scroll-immediate-check="check"
-    >
-      <div class="scheme-item flex-center-y" v-for="(item, index) in list" :key="index">
-        <!-- item 左 -->
-        <div class="item-left">
-          <div class="flex-between scheme-meal">
-            <span>A套餐</span>
-            <p>1600元 / 人次</p>
+      <div class="scheme-wrap">
+        <div class="scheme-item flex-center-y" v-for="(item, index) in list" :key="index">
+          <!-- item 左 -->
+          <div class="item-left">
+            <div class="flex-between scheme-meal">
+              <span>A套餐</span>
+              <p>1600元 / 人次</p>
+            </div>
+            <p class="intro">( 结直肠防癌早检 )</p>
           </div>
-          <p class="intro">( 结直肠防癌早检 )</p>
-        </div>
-        <!-- item 右 -->
-        <div class="item-right flex-end">
-          <a href="/schemeDetail">查看详情</a>
+          <!-- item 右 -->
+          <div class="item-right flex-end">
+            <a href="/schemeDetail">查看详情</a>
+          </div>
         </div>
       </div>
-    </div>
   </div>
 </template>
 
@@ -30,28 +24,12 @@
 export default {
   data () {
     return {
-      list: [1,1,1,1,1],
-      loading: false,
-      check: false,
-      distance: '10'
+      list: [1,1,1,1,1]
     }
   },
   methods: {
     init () {
       console.log('loadmore')
-    },
-    loadMore () {
-      if (this.list.length >= 10 ) {return false}
-      this.loading = true;
-        setTimeout(() => {
-          if (!this.loading) {
-            let last = this.list[this.list.length - 1];
-            for (let i = 1; i <= 3; i++) {
-              this.list.push(last + i);
-            }
-            this.loading = false;
-          }
-        }, 2500);
     }
   }
 }
@@ -59,6 +37,7 @@ export default {
 
 <style scoped lang="scss">
   .scheme-main{
+    overflow-x: hidden;
     background: #fafafa url('~@/assets/images/scheme-bg.png') no-repeat;
     background-size: 100% 310px;
     min-height: 100vh;

@@ -10,17 +10,17 @@
     <div class="package-wrap">
       <!-- 手机号码 -->
       <div class="input-wrap">
-        <input type="tel" placeholder="绑定手机号码" maxlength="11">
+        <input type="tel" placeholder="请输入手机号码" maxlength="11">
       </div>
       <!-- 验证码 -->
-      <!-- <div class="input-wrap flex-between">
-        <input type="text" placeholder="请输入验证码">
-        <button class="getCode">获取验证码</button>
-      </div> -->
+      <div class="input-wrap flex-between">
+        <input type="text" placeholder="请输入密码">
+        <!-- <button class="getCode">获取验证码</button> -->
+      </div>
       <!-- 密码登录 -->
-      <!-- <div class="password-login flex-end">
-        <a href="javascript:void(0)">使用密码登录</a>
-      </div> -->
+      <div class="password-login flex-end">
+        <a href="/phoneLogin">使用手机验证登录</a>
+      </div>
     </div>
     <!-- 确定 -->
     <custom-button btnText="确定"></custom-button>
@@ -70,7 +70,7 @@ export default {
         width: 645px;
         padding: 20px 50px;
         box-sizing: border-box;
-        margin: 0 auto 80px;
+        margin: 0 auto 35px;
         border-bottom: 1px solid #eee;
         input{
           font-size: 26px;
@@ -83,9 +83,6 @@ export default {
       }
       .input-wrap:nth-child(2){
         margin-bottom: 15px;
-        input{
-          width: 400px;
-        }
       }
       // 密码登录
       .password-login{

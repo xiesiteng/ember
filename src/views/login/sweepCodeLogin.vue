@@ -1,6 +1,6 @@
 <template>
   <div class="sweep-code">
-    <!-- <custom-header title="微信登录" :backShow="backShow"></custom-header> -->
+    <custom-header title="微信登录" :backShow="backShow"></custom-header>
     <div class="code-wrap">
       <div class="code">
         <img src="http://img3.imgtn.bdimg.com/it/u=2743786503,3895901848&fm=26&gp=0.jpg" alt="">
@@ -22,9 +22,9 @@ export default {
 
 <style scoped lang="scss">
   .sweep-code{
-    // background: #fbfbfb url('~@/assets/images/nav-bg.png') no-repeat;
-    // background-size: 100% 310px;
-    // min-height: 100vh;
+    background: #fbfbfb url('~@/assets/images/nav-bg.png') no-repeat;
+    background-size: 100% 310px;
+    min-height: 100vh;
     .code-wrap{
       padding-top: 80px;
       .code{
