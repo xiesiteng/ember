@@ -3,7 +3,17 @@ export default {
   // getAddress (state, {xxx}) {
   //   state.xxx = xxx
   // }
+  
+  // 改变isPad的状态
   updateIsPad (state, data) {
     state.isPad = data
+  },
+  // 改变mobileShow的状态
+  updateMobileShow (state, data) {
+    state.mobileShow = data
+  },
+  // 改变infoShow的状态
+  updateInfoShow (state, data) {
+    state.infoShow = data
   }
 }

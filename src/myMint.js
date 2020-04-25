@@ -1,25 +1,19 @@
 import Vue from 'vue'
 
 import { 
-  Button,
-  InfiniteScroll,
+  List,
+  Popup,
+  Stepper,
   Toast,
-  Loadmore,
   Swipe,
-  SwipeItem,
-  Popup
- } from 'mint-ui'
-Vue.component(Button.name, Button)
-Vue.use(InfiniteScroll)
-Vue.component(Toast.name, Toast)
-Vue.component(Loadmore.name, Loadmore)
-Vue.component(Swipe.name, Swipe);
-Vue.component(SwipeItem.name, SwipeItem);
-Vue.component(Popup.name, Popup);
-
-Vue.prototype.$toast = Toast
-
-
-import { List } from 'vant';
+  SwipeItem
+} from 'vant';
 
 Vue.use(List);
+Vue.use(Popup);
+Vue.use(Stepper);
+Vue.use(Swipe);
+Vue.use(SwipeItem);
+Vue.use(Toast);
+
+Vue.prototype.$toast = Toast

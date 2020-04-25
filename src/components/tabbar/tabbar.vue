@@ -1,11 +1,9 @@
 <template>
   <div class="tabbar-main flex-center-y">
-    <a :href="item.path" v-for="(item, index) in list" :key="index">
-      <div class="tabbar-item flex-center-col">
+      <div class="tabbar-item flex-center-col" v-for="(item, index) in list" :key="index" @click="tabbarTurn(item, index)">
         <img :src="active == index ? item.activeUrl : item.url" alt="">
         <span>{{item.name}}</span>
       </div>
-    </a>
   </div>
 </template>
 
@@ -32,6 +30,14 @@ export default {
         this.active = 0
       } else{
         this.active = 2
+      }
+    },
+    // 首页和我的进行路由替换，测评页进行路由跳转
+    tabbarTurn (item ,index) {
+      if (index == 1) {
+        this.$router.push(item.path)
+      } else{
+        this.$router.replace(item.path)
       }
     }
   }

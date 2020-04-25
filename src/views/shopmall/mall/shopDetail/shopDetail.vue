@@ -2,11 +2,11 @@
   <div class="detail-main">
     <!-- swiper -->
     <div class="swiper-wrap">
-      <mt-swipe :auto="0">
-        <mt-swipe-item v-for="(item, index) in 3" :key="index">
-          <img src="@/assets/images/ipad-bg.png" alt="">
-        </mt-swipe-item>
-      </mt-swipe>
+      <van-swipe class="my-swipe" indicator-color="white">
+        <van-swipe-item v-for="(item, index) in 3" :key="index">
+          <img src="http://img95.699pic.com/desgin_photo/40057/8784_list.jpg!/fh/300" alt="">
+        </van-swipe-item>
+      </van-swipe>
     </div>
     <!-- 信息 -->
     <div class="shop-item">
@@ -27,26 +27,33 @@
     </div>
     <!-- 底部 -->
     <div class="detail-bottom">
-      <button class="detail-buy" @click="popupVisible = true">立即购买</button>
+      <button class="detail-buy" @click="toBuy()">立即购买</button>
     </div>
     <!-- 绑定手机组件 -->
-
+    <bind-mobile></bind-mobile>
     <!-- 购买弹窗组件 -->
+    <buy-info></buy-info>
   </div>
 </template>
 
 <script>
+import bindMobile from './bindMobile/bindMobile'
+import buyInfo from './buyInfo/buyInfo'
 export default {
   data () {
     return {
       proList: [
-        require('@/assets/images/ipad-bg.png'),
-        require('@/assets/images/wx.png'),
-        require('@/assets/images/zfb.png'),
-        require('@/assets/images/health-test.png'),
-        require('@/assets/images/ipad-bg.png')
-      ]
+        'http://img95.699pic.com/desgin_photo/40026/5502_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
+        'http://img95.699pic.com/desgin_photo/40082/9478_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
+        'http://img95.699pic.com/desgin_photo/40097/3278_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90'
+      ],
+      mobileShow: false, // 绑定手机组件
+      buyShow: false
     }
+  },
+  components: {
+    bindMobile,
+    buyInfo
   },
   mounted () {
     /* 
@@ -56,7 +63,10 @@ export default {
      */
   },
   methods: {
-
+    toBuy () {
+      // this.$store.state.mobileShow = true
+      this.$store.state.infoShow = true
+    }
   }
 }
 </script>
@@ -65,19 +75,26 @@ export default {
   .detail-main{
     min-height: 100vh;
     background-color: #f7f7f7;
+    padding-bottom: 100px;
+    box-sizing: border-box;
+    // 轮播
     .swiper-wrap{
       width: 100%;
       height: 500px;
-      img{
+      .my-swipe{
         width: 100%;
         height: 100%;
+        img {
+          width: 100%;
+          height: 100%;
+        }
       }
     }
     // 信息
     .shop-item{
         // height: 650px;
         width: 100%;
-        padding: 10px 15px;
+        padding: 10px 15px 30px;
         box-sizing: border-box;
         margin-bottom: 15px;
         background-color: #fff;

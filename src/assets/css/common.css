@@ -58,6 +58,10 @@ input, select, button {
   outline: none;
   padding: 0;
 }
+input{
+  /* 解决ios系统中input框有阴影显示 */
+  -webkit-appearance: none;
+}
 p, h3 {
   margin: 0;
   padding: 0;

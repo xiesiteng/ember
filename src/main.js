@@ -11,6 +11,8 @@ import './utils/utils'
 import api from './axios/api'
 // api挂载至Vue原型
 Vue.prototype.$api = api
+// 引入微信jsdk
+import wx from 'weixin-js-sdk';
 
 
 Vue.config.productionTip = false
