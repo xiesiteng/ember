@@ -128,6 +128,20 @@ const allRouters = [
     meta: { requireAuth: true }
   },
   {
+    path: '/customer',
+    name: 'customer',
+    title: '联系客服',
+    component: () => import('@/views/shopmall/mine/customer/customer'),
+    meta: { requireAuth: true }
+  },
+  {
+    path: '/subscribe',
+    name: 'subscribe',
+    title: '我的预约',
+    component: () => import('@/views/shopmall/mine/subscribe/subscribe'),
+    meta: { requireAuth: true }
+  },
+  {
     path: '/shopDetail',
     name: 'shopDetail',
     title: '详情',

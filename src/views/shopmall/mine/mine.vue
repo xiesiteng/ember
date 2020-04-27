@@ -30,12 +30,10 @@ export default {
       // 菜单项
       menu: [
         {icon: require('@/assets/images/m1.png'), name: '抵用券', path: '/voucher'},
-        {icon: require('@/assets/images/m3.png'), name: '问卷调查', path: 'javascript:void(0)'},
-        {icon: require('@/assets/images/m2.png'), name: '报告结果', path: 'javascript:void(0)'},
-        {icon: require('@/assets/images/m4.png'), name: '检查记录', path: 'javascript:void(0)'},
         {icon: require('@/assets/images/m5.png'), name: '订单状态', path: 'javascript:void(0)'},
-        // {icon: require('@/assets/images/m5.png'), name: '订单状态'},
-        // {icon: require('@/assets/images/m5.png'), name: '订单状态'},
+        {icon: require('@/assets/images/m4.png'), name: '我的预约', path: '/subscribe'},
+        // {icon: require('@/assets/images/m2.png'), name: '报告结果', path: 'javascript:void(0)'},
+        {icon: require('@/assets/images/m3.png'), name: '联系客服', path: '/customer'},
       ]
     }
   },
@@ -62,7 +60,7 @@ export default {
   .mine-main{
     width: 100%;
     min-height: 100vh;
-    background-color: #eee;
+    background-color: #F2F2F2;
     overflow-x: hidden;
     box-sizing: border-box;
     .person-info{

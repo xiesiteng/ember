@@ -4,20 +4,20 @@
         <van-list
           v-model="loading"
           :finished="finished"
-          finished-text="没有更多了"
+          finished-text="已经到底啦"
           :immediate-check="false"
           @load="onLoad"
         >
-          <div class="shop-wrap">
-              <div class="shop-item" v-for="(item, index) in list" :key="index">
-                <img src="@/assets/images/health-test.png" alt="" class="shop-item-img">
-                <p class="shop-item-name">恩贝尔健康检测套餐抵用券A</p>
+          <div class="shop-wrap flex-wrap">
+              <div class="shop-item" v-for="(item, index) in list" :key="index" @click="$router.push({path: '/shopDetail', query: {id: item}})">
+                <img src="http://img95.699pic.com/desgin_photo/40057/8784_list.jpg!/fh/300" alt="" class="shop-item-img">
+                <p class="shop-item-name">恩贝尔健康检测套餐抵用券A恩贝尔健康检测套餐抵用券A</p>
                 <div class="shop-item-info flex-between">
                   <div class="price-wrap">
                     <span class="price"><i>¥ </i>1690.00</span>
-                    <span class="pre-price">¥1999.00</span>
                   </div>
-                  <button class="buyNow" @click="$router.push({path: '/shopDetail', query: {id: item}})">立即抢购</button>
+                  <span class="pre-price">¥1999.00</span>
+                  <!-- <button class="buyNow" @click="$router.push({path: '/shopDetail', query: {id: item}})">立即抢购</button> -->
                 </div>
               </div>
           </div>
@@ -33,7 +33,7 @@ import tabbar from '@/components/tabbar/tabbar'
 export default {
   data () {
     return{
-      list: ['1','1','1'],
+      list: ['1','1','1','1','1','1'],
       loading: false, // 控制上拉加载
       finished: false, // 数据全部加载完毕
     }
@@ -59,7 +59,7 @@ export default {
         this.loading = false;
 
         // 数据全部加载完成
-        if (this.list.length >= 9) {
+        if (this.list.length >= 10) {
           this.finished = true;
         }
       }, 100);
@@ -76,27 +76,36 @@ export default {
     width: 100%;
     height: 100%;
     padding-bottom: 130px;
+    background-color: #F2F2F2;
   }
   .shop-wrap{
-      padding: 20px 0 20px;
+      padding: 20px;
       box-sizing: border-box;
       height: 100%;
+      width: 750px;
       // 每个item
       .shop-item{
         // height: 650px;
-        width: 100%;
-        padding: 0 15px;
+        width: 345px;
+        padding: 15px;
         box-sizing: border-box;
-        margin-bottom: 30px;
+        margin: 0 15px 15px 0;
+        background-color: #fff;
+        border-radius: 20px;
+        &:nth-child(2n){
+          margin-right: 0;
+        }
         // 图片
         .shop-item-img{
           width: 100%;
-          height: 500px;
+          height: 400px;
           display: block;
         }
         // 名称
         .shop-item-name{
-          padding: 20px 0;
+          margin: 20px 0;
+          height: 80px;
+          overflow: hidden;
         }
         // 单个商品信息
         .shop-item-info{
@@ -112,12 +121,12 @@ export default {
                 font-weight: bold;
               }
             }
-            .pre-price{
+          }
+          .pre-price{
               font-size: 28px;
               color: #999;
               text-decoration: line-through;
-              margin-left: 20px;
-            }
+              // margin-left: 20px;
           }
           // 立即购买
           .buyNow{

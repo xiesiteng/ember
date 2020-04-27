@@ -19,7 +19,7 @@
       v-show="list.length !== 0"
       v-model="loading"
       :finished="finished"
-      finished-text="没有更多了"
+      finished-text="已经到底啦"
       :immediate-check="false"
       @load="onLoad"
     >
@@ -89,7 +89,7 @@ export default {
 <style scoped lang="scss">
   .voucher-main{
     min-height: 100vh;
-    background-color: #f7f7f7;
+    background-color: #F2F2F2;
     // 切换栏
     .nav{
       width: 100%;
@@ -117,21 +117,21 @@ export default {
     }
     // 抵用券对应内容
     .shop-wrap{
-      padding: 20px 0;
       box-sizing: border-box;
       height: 100%;
-      background-color: #fff;
+      background-color: #F2F2F2;
       // 每个item
       .shop-item{
         // height: 650px;
         width: 100%;
-        padding: 0 15px;
+        padding: 15px;
         box-sizing: border-box;
-        margin-bottom: 30px;
+        margin-bottom: 15px;
+        background-color: #fff;
         // 图片
         .shop-item-img{
           width: 100%;
-          height: 500px;
+          height: 400px;
           display: block;
         }
         // 名称

@@ -1,6 +1,6 @@
 <template>
   <div class="hemp-circle">
-    <svg viewBox="0 0 100 100" width="300px" height="300px">
+    <svg viewBox="0 0 100 100" width="300" height="300">
       <defs v-if="isGradient">
         <linearGradient
           :id='id'

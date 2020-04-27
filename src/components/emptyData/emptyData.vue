@@ -2,7 +2,7 @@
   <div class="empty-main flex-center">
     <div class="empty-wrap flex-center-col">
       <img src="@/assets/images/empty_data.png" alt="">
-      <p>暂无相关数据哟</p>
+      <p>{{text}}</p>
     </div>
   </div>
 </template>
@@ -11,7 +11,13 @@
 export default {
   data () {
     return {
-
+      
+    }
+  },
+  props:{
+    text: {
+      type: String,
+      default: '暂无相关数据哟'
     }
   }
 }

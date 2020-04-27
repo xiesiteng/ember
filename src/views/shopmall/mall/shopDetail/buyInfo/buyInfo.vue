@@ -13,14 +13,14 @@
             <p>¥1690.00</p>
             <span>¥1900.00</span>
           </div>
-          <p class="info-name">肠癌早检卡</p>
+          <p class="info-name">恩贝尔健康检测套餐抵用券</p>
         </div>
-        <img src="@/assets/images/fail.png" alt="" class="close-img" @click="close()">
+        <img src="@/assets/images/close.png" alt="" class="close-img" @click="close()">
       </div>
       <!-- 规格 -->
       <div class="info-guige flex-between">
         <span>规格</span>
-        <p>肠癌早检卡</p>
+        <p>恩贝尔健康检测套餐抵用券</p>
       </div>
       <!-- 数量 -->
       <div class="info-number flex-between">
@@ -112,7 +112,7 @@ export default {
           width: 95%;
           box-sizing: border-box;
           height: 1px;
-          background-color: #eee;
+          background-color: #f7f7f7;
           position: absolute;
           bottom: 0;
         }
@@ -138,7 +138,7 @@ export default {
         display: block;
         width: 100%;
         height: 100px;
-        background-color: #00b2bc;
+        background-image: linear-gradient(to right, #04b5bc, #3ddfb7);
         line-height: 100px;
         text-align: center;
         color: #fff;

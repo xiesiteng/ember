@@ -3,7 +3,7 @@
      <div class="result-wrap">
         <div class="result-inner">
           <!-- 进度条图形 -->
-          <div class="circle-progress">
+          <div class="circle-progress flex-center">
             <circle-progress
               :percent="percent"
               :stroke-width="6"
@@ -70,7 +70,7 @@ export default {
   }
   .result-wrap{
     position: absolute;
-    top: 200px;
+    top: 25%;
     width: 100%;
     height: calc(100vh - 200px);
     .result-inner{
@@ -98,6 +98,7 @@ export default {
         background-color: #f6f6f6;
         position: absolute;
         left: 50%;
+        transform: translateX(-28%);
         transform: translateX(-48.5%);
         top: 105px;
       }
