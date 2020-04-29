@@ -13,7 +13,7 @@ export default {
     return {
       list: [
         {url: require('@/assets/images/home.png'), activeUrl: require('@/assets/images/home_pick.png'), name: '首页', path: '/shopIndex'},
-        {url: require('@/assets/images/assess.png'), activeUrl: require('@/assets/images/assess_pick.png'), name: '测评', path: '/index'},
+        {url: require('@/assets/images/assess.png'), activeUrl: require('@/assets/images/assess_pick.png'), name: '测评', path: '/wxLogin'},
         {url: require('@/assets/images/mine.png'), activeUrl: require('@/assets/images/mine_pick.png'), name: '我的', path: '/mine'},
       ],
       active: 0

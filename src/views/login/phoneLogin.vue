@@ -23,7 +23,7 @@
       </div>
     </div>
     <!-- 确定 -->
-    <custom-button btnText="确定"></custom-button>
+    <custom-button btnText="确定" @tap="sure()"></custom-button>
   </div>
 </template>
 
@@ -32,6 +32,12 @@ export default {
   data () {
     return {
 
+    }
+  },
+  methods: {
+    // 确定
+    sure () {
+      this.$router.push('/chooseSubscribe')
     }
   }
 }

@@ -104,3 +104,9 @@ a {
   }
 }
 
+/* 右箭头图标大小 */
+.rightArrow{
+  width: 30px;
+  height: 30px;
+}
+

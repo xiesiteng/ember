@@ -4,14 +4,17 @@
       <!-- 个人信息 -->
       <div class="person-info flex-center-col">
         <img src="@/assets/images/user_default.png" alt="" class="head-img">
-        <span class="nickName">迷路的小淘气</span>
+        <span class="nickName">点击登录</span>
       </div>
       <!-- 购买记录 -->
       <div class="content-wrap">
         <div class="content-item" v-for="(item, index) in menu" :key="index">
-          <a :href="item.path" class="flex-center-y">
-            <img :src="item.icon" alt="" class="icon-size">
-            <span class="item-txt">{{item.name}}</span>
+          <a :href="item.path" class="flex-between">
+            <div class="flex-center-y">
+              <img :src="item.icon" alt="" class="icon-size">
+              <span class="item-txt">{{item.name}}</span>
+            </div>
+            <img src="@/assets/images/rightArrow.png" alt="" class="rightArrow">
           </a>
         </div>
       </div>
@@ -30,7 +33,7 @@ export default {
       // 菜单项
       menu: [
         {icon: require('@/assets/images/m1.png'), name: '抵用券', path: '/voucher'},
-        {icon: require('@/assets/images/m5.png'), name: '订单状态', path: 'javascript:void(0)'},
+        {icon: require('@/assets/images/m5.png'), name: '订单状态', path: '/orderStatus'},
         {icon: require('@/assets/images/m4.png'), name: '我的预约', path: '/subscribe'},
         // {icon: require('@/assets/images/m2.png'), name: '报告结果', path: 'javascript:void(0)'},
         {icon: require('@/assets/images/m3.png'), name: '联系客服', path: '/customer'},
@@ -39,6 +42,9 @@ export default {
   },
   components: {
     tabbar
+  },
+  methods: {
+
   }
 }
 </script>
@@ -86,7 +92,7 @@ export default {
         z-index: 5;
       }
       .nickName{
-        margin-top: 20px;
+        margin-top: 30px;
         color: #fff;
         z-index: 5;
       }
@@ -100,12 +106,12 @@ export default {
       border-radius: 20px;
       background-color: #fff;
       box-sizing: border-box;
-      padding: 20px 50px;
+      padding: 20px 40px;
       position: relative;
       z-index: 5;
       .content-item{
-        border-bottom: 1px dashed #eee;
-        padding: 30px 0;
+        border-bottom: 1px solid #F2F2F2;
+        padding: 40px 0;
         box-sizing: border-box;
         .icon-size{
           width: 50px;

@@ -1,6 +1,6 @@
 
 const allRouters = [
-  { path: '/', redirect: '/index' },
+  { path: '/', redirect: '/shopIndex' },
   {
     path: '/index',
     name: 'index',
@@ -118,7 +118,7 @@ const allRouters = [
     name: 'mine',
     title: '个人中心',
     component: () => import('@/views/shopmall/mine/mine'),
-    meta: { requireAuth: true }
+    meta: { requireAuth: false }
   },
   {
     path: '/voucher',
@@ -132,7 +132,7 @@ const allRouters = [
     name: 'customer',
     title: '联系客服',
     component: () => import('@/views/shopmall/mine/customer/customer'),
-    meta: { requireAuth: true }
+    meta: { requireAuth: false }
   },
   {
     path: '/subscribe',
@@ -142,11 +142,25 @@ const allRouters = [
     meta: { requireAuth: true }
   },
   {
+    path: '/orderStatus',
+    name: 'orderStatus',
+    title: '订单状态',
+    component: () => import('@/views/shopmall/mine/orderStatus/orderStatus'),
+    meta: { requireAuth: true }
+  },
+  {
     path: '/shopDetail',
     name: 'shopDetail',
     title: '详情',
     component: () => import('@/views/shopmall/mall/shopDetail/shopDetail'),
     meta: { requireAuth: false }
+  },
+  {
+    path: '/chooseSubscribe',
+    name: 'chooseSubscribe',
+    title: '选择预约',
+    component: () => import('@/views/chooseSubscribe/chooseSubscribe'),
+    meta: { requireAuth: true }
   }
 ]
 

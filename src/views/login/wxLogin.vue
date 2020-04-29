@@ -1,9 +1,6 @@
 <template>
-  <div>
-    <!-- ipad端用户登录界面 -->
-    <ipad-show v-if="$store.state.isPad"></ipad-show>
-    <!-- 手机端用户登录界面 -->
-    <div class="agreement-main" v-else>
+    <div class="agreement-main">
+      <!-- 手机端用户登录界面 -->
       <custom-header title="微信登录" :backShow="backShow"></custom-header>
         <div class="ag-wrap">
           <p class="title">微信登录用户需知</p>
@@ -16,11 +13,9 @@
         <custom-button btnText="微信登录" @tap="doLogin()"></custom-button>
     </div>
     <!-- 手机端用户登录界面end -->
-  </div>
 </template>
 
 <script>
-import ipadShow from './components/ipadShow'
 export default {
   data () {
     return {
@@ -37,12 +32,6 @@ export default {
             '3 、本人保证以下所填写声明信息的真实性、准确性，如有不实告知，贵公司有权解除保险合同，并对合同解除前发生的保险事故不承担保险金给付责任。'
     }
   },
-  components: {
-    ipadShow
-  },
-  created () {
-    this.$judgeUserAgent()
-  },
   methods: {
     // 勾选项check
     pick () {
@@ -54,7 +43,7 @@ export default {
         return false
       }
       // 执行微信登录
-      this.$router.push('/index')
+      this.$router.push('/chooseSubscribe')
     }
   }
 }
@@ -69,27 +58,30 @@ export default {
     position: fixed;
     .ag-wrap{
       width: 600px;
-      height: 700px;
+      height: 750px;
       border-radius: 30px;
       background-color: #fff;
-      margin: 50px auto 100px;
-      padding: 0 30px;
+      margin: 50px auto 80px;
+      padding: 20px 30px;
       box-sizing: border-box;
       .title{
         color: #999;
-        font-size: 22px;
+        font-size: 28px;
         text-align: center;
         padding: 15px 0;
       }
+      .content::-webkit-scrollbar{
+        display: none;
+      }
       .content{
-        font-size: 22px;
+        font-size: 24px;
         color: #999;
         height: 570px;
         overflow-y: auto;
         line-height: 2;
       }
       .already{
-        margin-top: 20px;
+        margin-top: 30px;
         align-items: baseline;
         .default {
             display: inline-block;

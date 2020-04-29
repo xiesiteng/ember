@@ -1,45 +1,65 @@
 <template>
-  <div class="shopIndex-main">
-    <!-- 展示所有套餐 -->
-        <van-list
-          v-model="loading"
-          :finished="finished"
-          finished-text="已经到底啦"
-          :immediate-check="false"
-          @load="onLoad"
-        >
-          <div class="shop-wrap flex-wrap">
-              <div class="shop-item" v-for="(item, index) in list" :key="index" @click="$router.push({path: '/shopDetail', query: {id: item}})">
-                <img src="http://img95.699pic.com/desgin_photo/40057/8784_list.jpg!/fh/300" alt="" class="shop-item-img">
-                <p class="shop-item-name">恩贝尔健康检测套餐抵用券A恩贝尔健康检测套餐抵用券A</p>
-                <div class="shop-item-info flex-between">
-                  <div class="price-wrap">
-                    <span class="price"><i>¥ </i>1690.00</span>
+  <div class="main-wrap">
+    <!-- ipad端用户界面 -->
+    <ipad-show v-if="$store.state.isPad"></ipad-show>
+    <!-- 手机端用户界面 -->
+    <div class="shopIndex-main" v-else>
+      <!-- 展示所有套餐 -->
+          <van-list
+            v-model="loading"
+            :finished="finished"
+            finished-text="已经到底啦"
+            :immediate-check="false"
+            @load="onLoad"
+          >
+            <div class="shop-wrap flex-wrap">
+                <div class="shop-item" v-for="(item, index) in list" :key="index" @click="$router.push({path: '/shopDetail', query: {id: item}})">
+                  <!-- <img :src="item" alt="" class="shop-item-img"> -->
+                  <van-image :src="item" fit="cover" class="shop-item-img"/>
+                  <p class="shop-item-name">恩贝尔健康检测套餐抵用券A恩贝尔健康检测套餐抵用券A</p>
+                  <div class="shop-item-info flex-between">
+                    <div class="price-wrap">
+                      <span class="price"><i>¥ </i>1690.00</span>
+                    </div>
+                    <span class="pre-price">¥1999.00</span>
+                    <!-- <button class="buyNow" @click="$router.push({path: '/shopDetail', query: {id: item}})">立即抢购</button> -->
                   </div>
-                  <span class="pre-price">¥1999.00</span>
-                  <!-- <button class="buyNow" @click="$router.push({path: '/shopDetail', query: {id: item}})">立即抢购</button> -->
                 </div>
-              </div>
-          </div>
-        </van-list>
-
-    <!-- 底部 -->
-    <tabbar></tabbar>
+            </div>
+          </van-list>
+      <!-- 底部 -->
+      <tabbar></tabbar>
+    </div>
   </div>
 </template>
 
 <script>
 import tabbar from '@/components/tabbar/tabbar'
+import ipadShow from './components/ipadShow'
 export default {
   data () {
     return{
-      list: ['1','1','1','1','1','1'],
+      list: [
+        'http://img95.699pic.com/desgin_photo/40026/5502_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
+        'http://img95.699pic.com/desgin_photo/40082/9478_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
+        'http://img95.699pic.com/desgin_photo/40097/3278_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
+        'http://img95.699pic.com/desgin_photo/40026/5502_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
+        'http://img95.699pic.com/desgin_photo/40082/9478_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
+        'http://img95.699pic.com/desgin_photo/40097/3278_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
+        'http://img95.699pic.com/desgin_photo/40026/5502_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
+        'http://img95.699pic.com/desgin_photo/40082/9478_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
+        'http://img95.699pic.com/desgin_photo/40082/9478_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90'
+        ],
       loading: false, // 控制上拉加载
       finished: false, // 数据全部加载完毕
     }
   },
   components: {
-    tabbar
+    tabbar,
+    ipadShow
+  },
+  created () {
+    this.$judgeUserAgent()
   },
   mounted () {
 
@@ -52,18 +72,15 @@ export default {
         setTimeout(() => {
         // this.loading = true
         for (let i = 0; i < 3; i++) {
-          this.list.push('1');
+          this.list.push('http://img95.699pic.com/desgin_photo/40026/5502_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90');
         }
-
         // 加载状态结束
         this.loading = false;
-
         // 数据全部加载完成
         if (this.list.length >= 10) {
           this.finished = true;
         }
       }, 100);
-
     }
 
   }
@@ -97,8 +114,8 @@ export default {
         }
         // 图片
         .shop-item-img{
-          width: 100%;
-          height: 400px;
+          width: 100%!important;
+          height: 400px!important;
           display: block;
         }
         // 名称

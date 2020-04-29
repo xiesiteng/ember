@@ -1,10 +1,13 @@
 <template>
   <div class="subscribe-main">
-    <custom-header title="我的预约"></custom-header>
+    <custom-header title="选择测评" :backShow="false"></custom-header>
     <!-- 无预约纪录 -->
     <empty-data text="您还没有相关预约纪录" v-if="list.length == 0"></empty-data>
     <!-- 预约 -->
     <div class="subscribe-wrap" v-else>
+      <!-- 选择提示 -->
+      <div class="subscribe-tips">请在以下预约选择其中一个进行问卷测评</div>
+      <div class="cozy">温馨提示：单条预约的问卷测评只可进行一次，提交问卷后该预约将无法再次测评。</div>
       <van-list
         v-model="loading"
         :finished="finished"
@@ -12,7 +15,7 @@
         :immediate-check="false"
         @load="onLoad"
       >
-        <div class="subscribe-item" v-for="(item, index) in list" :key="index">
+        <div class="subscribe-item" v-for="(item, index) in list" :key="index" @click="toTestIndex()">
           <!-- 预约编号 -->
           <div class="subscribe-item-number flex-between">
             <p>预约编号：{{item.orderNumber}}</p>
@@ -38,8 +41,7 @@ export default {
     return{
       list: [
         {orderNumber: 'EC202004281015', orderStatus: 0, orderName: '恩贝尔健康检测套餐抵用券A', orderPrice: '1688.00'},
-        {orderNumber: 'EC202004281015', orderStatus: 1, orderName: '恩贝尔健康检测套餐抵用券B', orderPrice: '1688.00'},
-        {orderNumber: 'EC202004281015', orderStatus: 0, orderName: '恩贝尔健康检测套餐抵用券C', orderPrice: '1688.00'}
+        {orderNumber: 'EC202004281015', orderStatus: 1, orderName: '恩贝尔健康检测套餐抵用券B', orderPrice: '1688.00'}
       ],
       loading: false,
       finished: false
@@ -64,6 +66,10 @@ export default {
         }
       }, 100);
     },
+    // 根据预约状态判断具体操作
+    toTestIndex () {
+      this.$router.push('/index')
+    }
 
   }
 }
@@ -75,6 +81,21 @@ export default {
     background-color: #F2F2F2;
     .subscribe-wrap{
       // margin-top: 15px;
+      .subscribe-tips{
+        text-align: center;
+        padding: 20px 0 0;
+        box-sizing: border-box;
+        color: #333;
+        background-color: #fff;
+      }
+      .cozy{
+        width: 100%;
+        padding: 20px 30px;
+        box-sizing: border-box;
+        font-size: 20px;
+        color: #999;
+        background-color: #fff;
+      }
       // 每条预约
       .subscribe-item{
         width: 100%;

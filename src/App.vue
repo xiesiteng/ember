@@ -20,8 +20,13 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #333;
-  font-size: 30px;
+  font-size: 28px;
 }
-body{margin: 0;font-size: 30px!important;}
+body{margin: 0;font-size: 28px;}
+
+// vant的dialog提示框中的文字
+.van-dialog__message{
+  font-size: 18px;
+}
 
 </style>

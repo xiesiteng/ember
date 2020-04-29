@@ -59,15 +59,15 @@ export default {
     min-height: 100vh;
     .detail-wrap{
       width: 600px;
-      height: 750px;
+      min-height: 750px;
       border-radius: 30px;
       background-color: #fff;
-      margin: 0 auto 100px;
+      margin: 50px auto 80px;
       text-align: center;
       box-shadow: 0 0 10px #e5e5e5;
       // 套餐标题
       h3{
-        padding: 15px 0;
+        padding: 30px 0;
         font-size: 36px;
       }
       // 套餐名称

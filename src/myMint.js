@@ -6,7 +6,9 @@ import {
   Stepper,
   Toast,
   Swipe,
-  SwipeItem
+  SwipeItem,
+  Dialog,
+  Image as VanImage
 } from 'vant';
 
 Vue.use(List);
@@ -15,5 +17,8 @@ Vue.use(Stepper);
 Vue.use(Swipe);
 Vue.use(SwipeItem);
 Vue.use(Toast);
+Vue.use(Dialog);
+Vue.use(VanImage);
 
 Vue.prototype.$toast = Toast
+Vue.prototype.$dailog = Dialog

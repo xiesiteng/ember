@@ -98,6 +98,7 @@ export default {
       .nav-item{
         width: 250px;
         padding: 20px 0;
+        font-size: 28px;
       }
       .nav-item-active{
         color: #04b5bc;
@@ -124,7 +125,7 @@ export default {
       .shop-item{
         // height: 650px;
         width: 100%;
-        padding: 15px;
+        padding: 30px;
         box-sizing: border-box;
         margin-bottom: 15px;
         background-color: #fff;

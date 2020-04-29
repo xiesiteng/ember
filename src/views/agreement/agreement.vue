@@ -62,20 +62,23 @@ export default {
     position: fixed;
     .ag-wrap{
       width: 600px;
-      height: 700px;
+      height: 750px;
       border-radius: 30px;
       background-color: #fff;
-      margin: 0 auto 100px;
-      padding: 0 30px;
+      margin: 50px auto 80px;
+      padding: 20px 30px;
       box-sizing: border-box;
       .title{
         color: #999;
-        font-size: 22px;
+        font-size: 28px;
         text-align: center;
         padding: 15px 0;
       }
+      .content::-webkit-scrollbar{
+        display: none;
+      }
       .content{
-        font-size: 22px;
+        font-size: 24px;
         color: #999;
         height: 570px;
         overflow-y: auto;
