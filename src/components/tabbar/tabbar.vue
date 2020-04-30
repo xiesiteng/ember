@@ -55,7 +55,8 @@ export default {
     z-index: 50;
     .tabbar-item{
       height: 100%;
-      width: 250px;
+      flex: 1;
+      // width: 250px;
       img{
         width: 60px;
         height: 60px;

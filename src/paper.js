@@ -4,64 +4,114 @@ const list = [
   {
     title: '你感觉身体有以下哪些症状？',
     type: 0,
-    ready: false,
-    answer: [
+    is_ready: -1,
+    optionlist: [
       {
         id: 1,
-        name: '胃疼',
-        checked: false
+        title: '胃疼',
+        is_selected: -1,
+        risk_liver: 0,
+        risk_lung: 0,
+        risk_intestines: 0,
+        risk_stomach: 0,
+        risk_esophagus: 0
       },
       {
         id: 2,
-        name: '胸闷',
-        checked: false
+        title: '胸闷',
+        is_selected: -1,
+        risk_liver: 0,
+        risk_lung: 0,
+        risk_intestines: 0,
+        risk_stomach: 0,
+        risk_esophagus: 0
       },
       {
         id: 3,
-        name: '咳嗽',
-        checked: false
+        title: '咳嗽',
+        is_selected: -1,
+        risk_liver: 0,
+        risk_lung: 0,
+        risk_intestines: 0,
+        risk_stomach: 0,
+        risk_esophagus: 0
       },
       {
         id: 4,
-        name: '腹泻',
-        checked: false
+        title: '腹泻',
+        is_selected: -1,
+        risk_liver: 0,
+        risk_lung: 0,
+        risk_intestines: 0,
+        risk_stomach: 0,
+        risk_esophagus: 0
       }
     ]
   },
   {
     title: '你是否有以下症状出现？',
     type: 1,
-    ready: false,
-    answer: [
-      {
-        id: 1,
-        name: '腹泻',
-        checked: false
-      },
-      {
-        id: 2,
-        name: '便秘',
-        checked: false
-      },
-      {
-        id: 3,
-        name: '胃疼',
-        checked: false
-      },
-      {
-        id: 4,
-        name: '胸闷',
-        checked: false
-      },
+    is_ready: -1,
+    optionlist: [
       {
         id: 5,
-        name: '失眠',
-        checked: false
+        title: '腹泻',
+        is_selected: -1,
+        risk_liver: 0,
+        risk_lung: 0,
+        risk_intestines: 0,
+        risk_stomach: 0,
+        risk_esophagus: 0
       },
       {
         id: 6,
-        name: '恶心、干呕',
-        checked: false
+        title: '便秘',
+        is_selected: -1,
+        risk_liver: 0,
+        risk_lung: 0,
+        risk_intestines: 0,
+        risk_stomach: 0,
+        risk_esophagus: 0
+      },
+      {
+        id: 7,
+        title: '胃疼',
+        is_selected: -1,
+        risk_liver: 0,
+        risk_lung: 0,
+        risk_intestines: 0,
+        risk_stomach: 0,
+        risk_esophagus: 0
+      },
+      {
+        id: 8,
+        title: '胸闷',
+        is_selected: -1,
+        risk_liver: 0,
+        risk_lung: 0,
+        risk_intestines: 0,
+        risk_stomach: 0,
+        risk_esophagus: 0
+      },
+      {
+        id: 9,
+        title: '失眠',
+        is_selected: -1,
+        risk_liver: 0,
+        risk_lung: 0,
+        risk_intestines: 0,
+        risk_stomach: 0,
+        risk_esophagus: 0
+      },
+      {
+        id: 10,
+        title: '恶心、干呕',
+        is_selected: -1,
+        risk_liver: 0,
+        risk_lung: 0,
+        risk_intestines: 0,
+        risk_stomach: 0,
+        risk_esophagus: 0
       }
     ]
   }

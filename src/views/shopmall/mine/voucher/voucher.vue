@@ -96,7 +96,8 @@ export default {
       background-color: #fff;
       margin-bottom: 15px;
       .nav-item{
-        width: 250px;
+        // width: 250px;
+        flex: 1;
         padding: 20px 0;
         font-size: 28px;
       }

@@ -15,7 +15,7 @@ if (process.env.NODE_ENV == 'development') {
   config.baseURL = 'api'
 } else if (process.env.NODE_ENV == 'production') {
   // build生产环境
-  config.baseURL = 'http://api.yazhuokj.com/'
+  // config.baseURL = ''
 }
 
 
@@ -50,10 +50,10 @@ let self = Vue.prototype
 // Add a response interceptor
 _axios.interceptors.response.use(
   function (response) {
-    if (response.data.code == 200) {
+    if (response.data.code == 0) {
       // 接口状态正常
       return Promise.resolve(response);
-    } else if (response.data.code == 402) {
+    } else if (response.data.code == -100) {
       self.$toast('登录已过期，请重新登录')
       localStorage.removeItem('token')
       router.replace(
@@ -66,7 +66,7 @@ _axios.interceptors.response.use(
     } else {
       // 接口状态异常
       self.$toast(response.data.msg)
-      return Promise.resolve(response);
+      return Promise.reject(response);
     }
   },
   function (err) {

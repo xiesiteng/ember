@@ -116,7 +116,8 @@ export default {
       width: 100%;
       background-color: #fff;
       .order-nav-item{
-        width: 250px;
+        // width: 250px;
+        flex: 1;
         padding: 20px 0;
         box-sizing: border-box;
         text-align: center;

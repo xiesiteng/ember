@@ -16,11 +16,11 @@
       <!-- 答案 -->
       <div class="paper-answer-wrap">
         <p 
-        :class="['paper-answer', item.checked ? 'paper-answer-active' : '']"
-        v-for="(item, index) in list[current - 1].answer" :key="index"
+        :class="['paper-answer', item.is_selected == 1 ? 'paper-answer-active' : '']"
+        v-for="(item, index) in list[current - 1].optionlist" :key="index"
         @click="choose(item, list[current - 1].type)"
         >
-          {{item.name}}
+          {{item.title}}
         </p>
       </div>
     </div>
@@ -40,36 +40,56 @@ export default {
   data () {
     return {
       current: 1,
-      total: list.length,
+      total: 19,
       list: list
     }
   },
   activated () {
     console.log('activated')
   },
+  created () {
+    this.$nextTick(()=>{
+      this.init()
+    })
+  },
   mounted () {
-    console.log('mounted')
+    
   },
   methods: {
+    // 获取问卷测评的题目
+    init () {
+      this.$api.getAllTest().then(res => {
+        // console.log(res)
+        this.list = res.data
+        this.total = this.list.length
+        // 为每个答案选项添加是否选中的字段
+        this.list.forEach((item, index) => {
+          item.optionlist.forEach((optionItem, optionIndex) => {
+            this.$set(optionItem, 'is_selected', -1)
+          })
+        })
+        console.log(this.list)
+      })
+    },
     // 点击答案选项
     choose (item, type) {
       // 多选：如果选中变为未选中，未选中变为选中
       if (type == 0) {
-        if (item.checked) {
-          item.checked = false
+        if (item.is_selected == 1) {
+          item.is_selected = -1
           this.setFlag()
         } else {
-          item.checked = true
+          item.is_selected = 1
           this.setFlag()
         }
       } else {
         // 单选： 先遍历所有选项把状态变为未选中
-        let answerArray = this.list[this.current - 1].answer
+        let answerArray = this.list[this.current - 1].optionlist
         answerArray.forEach((items, index) => {
-          items.checked = false
+          items.is_selected = -1
         })
         // 设置当前item的状态为选中
-        item.checked = true
+        item.is_selected = 1
         this.setFlag()
       }
     },
@@ -84,15 +104,15 @@ export default {
     },
     setFlag () {
       // 纪录这道题用户是否勾选了
-      let answer = this.list[this.current - 1].answer
+      let answer = this.list[this.current - 1].optionlist
       let count = 0
       for (let i = 0; i < answer.length; i++) {
-        if (!answer[i].checked) {
+        if (answer[i].is_selected == -1) {
           count++
           if (count == answer.length) {
-            this.list[this.current - 1].ready = false
+            this.list[this.current - 1].is_ready = -1
           } else{
-            this.list[this.current - 1].ready = true
+            this.list[this.current - 1].is_ready = 1
           }
         }
       }
@@ -100,11 +120,19 @@ export default {
     // 提交
     async submit () {
       let res = await this.full()
-      console.log(res)
+      // console.log(res)
       if (res !== this.list.length) {
         this.$toast('您还有题目尚未完成，请先完善')
       } else {
-        this.$router.push('/submitTest')
+        let submit_obj = {order_id: 1, answer_list: []}
+        let submitList = await this.fetchData()
+        submit_obj.answer_list = submitList
+        // console.log(submit_obj)
+        this.$api.submitAllTest(
+          submit_obj
+        ).then(res => {
+          // this.$router.push('/submitTest')
+        }) 
       }  
     },
     // 检验所有题目，是否有未做的。
@@ -112,11 +140,42 @@ export default {
       return new Promise((resolve,reject) => {
         let count = 0
         this.list.forEach((item, index) => {
-          if(item.ready){
+          if(item.is_ready == 1){
             count++
           }
         })
         resolve(count)
+      })
+    },
+    /*
+     *  提交前对所有答案的数据处理成此格式：( -1： 未选中， 1： 选中)
+     *  [
+     *    { id: 1, is_selected: -1, risk_liver: 0, risk_lung: 0, risk_intestines: 0, risk_stomach: 0, risk_esophagus: 0 },
+     *    ...
+     *  ]
+     */
+    fetchData () {
+      return new Promise((resolve, reject) => {
+        let dataList = []
+        // 先遍历最外层数组获取到测评的每道题目
+        this.list.forEach((item, index) => {
+          // 再遍历答案列表数组
+          item.optionlist.forEach((optionItem, optionIndex) => {
+            // option对象的初始化必须置于此处，否则可能存在对象深浅拷贝的问题
+            let option = {}
+            option.id = optionItem.id
+            option.is_selected = optionItem.is_selected
+            option.risk_liver = optionItem.risk_liver
+            option.risk_lung = optionItem.risk_lung
+            option.risk_intestines = optionItem.risk_intestines
+            option.risk_stomach = optionItem.risk_stomach
+            option.risk_esophagus = optionItem.risk_esophagus
+            // 把该对象push到数组中用于提交接口中的参数
+            dataList.push(option)
+          })
+        })
+        // 用resolve接收dataList作为函数返回值
+        resolve(dataList)
       })
     }
   }
