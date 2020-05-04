@@ -15,7 +15,7 @@
         :immediate-check="false"
         @load="onLoad"
       > -->
-        <div class="subscribe-item" v-for="(item, index) in list" :key="index" @click="toTestIndex()" v-show="item.type == 100">
+        <div class="subscribe-item" v-for="(item, index) in list" :key="index" @click="toTestIndex(item.id)" v-show="item.type == 100">
           <!-- 预约编号 -->
           <div class="subscribe-item-number flex-between">
             <p>预约编号：{{item.open_ordernumber}}</p>
@@ -70,7 +70,8 @@ export default {
     //   }, 100);
     // },
     // 根据预约状态判断具体操作
-    toTestIndex () {
+    toTestIndex (id) {
+      this.$store.commit('setChooseSubscribeId', id)
       this.$router.push('/index')
     },
     // 获取预约信息

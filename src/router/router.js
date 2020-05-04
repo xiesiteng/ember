@@ -161,6 +161,13 @@ const allRouters = [
     title: '选择预约',
     component: () => import('@/views/chooseSubscribe/chooseSubscribe'),
     meta: { requireAuth: true }
+  },
+  {
+    path: '/testResult',
+    name: 'testResult',
+    title: '测评结果',
+    component: () => import('@/views/testResult/testResult'),
+    meta: { requireAuth: true }
   }
 ]
 

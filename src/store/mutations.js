@@ -15,5 +15,10 @@ export default {
   // 改变infoShow的状态
   updateInfoShow (state, data) {
     state.infoShow = data
+  },
+  // 存储chooseSubscribeId的值
+  setChooseSubscribeId (state, data) {
+    sessionStorage.setItem('chooseSubscribeId', data)
+    state.chooseSubscribeId = sessionStorage.getItem('chooseSubscribeId')
   }
 }
