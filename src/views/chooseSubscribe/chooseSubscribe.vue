@@ -8,29 +8,29 @@
       <!-- 选择提示 -->
       <div class="subscribe-tips">请在以下预约选择其中一个进行问卷测评</div>
       <div class="cozy">温馨提示：单条预约的问卷测评只可进行一次，提交问卷后该预约将无法再次测评。</div>
-      <van-list
+      <!-- <van-list
         v-model="loading"
         :finished="finished"
         finished-text="已经到底啦"
         :immediate-check="false"
         @load="onLoad"
-      >
-        <div class="subscribe-item" v-for="(item, index) in list" :key="index" @click="toTestIndex()">
+      > -->
+        <div class="subscribe-item" v-for="(item, index) in list" :key="index" @click="toTestIndex()" v-show="item.type == 100">
           <!-- 预约编号 -->
           <div class="subscribe-item-number flex-between">
-            <p>预约编号：{{item.orderNumber}}</p>
-            <span class="subscribe-status">已预约</span>
+            <p>预约编号：{{item.open_ordernumber}}</p>
+            <span class="subscribe-status">{{statusByType(item.type)}}</span>
           </div>
           <!-- 预约信息 -->
           <div class="subscribe-info">
-            <h3 class="subscribe-name flex"><span class="left-title">预约套餐：</span><p>恩贝尔健康管理A套餐</p></h3>
-            <p class="flex-center-y"><span class="left-title">套餐价格：</span><span class="subscribe-price">¥1688.00</span></p>
-            <p class="flex-center-y"><span class="left-title">预约姓名：</span>欧阳大大</p>
-            <p class="flex-center-y"><span class="left-title">联系方式：</span>18888888888</p>
-            <p class="flex-center-y"><span class="left-title">预约时间：</span>2020-05-01 至 2020-05-05</p>
+            <h3 class="subscribe-name flex"><span class="left-title">预约套餐：</span><p>{{item.goods_title}}</p></h3>
+            <p class="flex-center-y"><span class="left-title">套餐价格：</span><span class="subscribe-price">¥ {{$fmtMoney(item.goods_price)}}</span></p>
+            <p class="flex-center-y"><span class="left-title">预约姓名：</span>{{item.user_name}}</p>
+            <p class="flex-center-y"><span class="left-title">联系方式：</span>{{item.appoint_tel}}</p>
+            <p class="flex-center-y"><span class="left-title">预约时间：</span>{{$timeFmt(item.appoint_time, 3)}}</p>
           </div>
         </div>
-      </van-list>
+      <!-- </van-list> -->
     </div>
   </div>
 </template>
@@ -47,28 +47,69 @@ export default {
       finished: false
     }
   },
+  mounted () {
+    this.init()
+  },
   methods: {
-    // 上拉加载
-    onLoad() {
-      // 异步更新数据
-      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
-        console.log('on Load')
-        setTimeout(() => {
-        // this.loading = true
-        for (let i = 0; i < 3; i++) {
-          this.list.push({orderNumber: 'EC202004281015', orderStatus: 0, orderName: '恩贝尔健康检测套餐抵用券A', orderPrice: '1688'});
-        }
-        // 加载状态结束
-        this.loading = false;
-        // 数据全部加载完成
-        if (this.list.length >= 10) {
-          this.finished = true;
-        }
-      }, 100);
-    },
+    // 预留上拉加载
+    // onLoad() {
+    //   // 异步更新数据
+    //   // setTimeout 仅做示例，真实场景中一般为 ajax 请求
+    //     console.log('on Load')
+    //     setTimeout(() => {
+    //     // this.loading = true
+    //     for (let i = 0; i < 3; i++) {
+    //       this.list.push({orderNumber: 'EC202004281015', orderStatus: 0, orderName: '恩贝尔健康检测套餐抵用券A', orderPrice: '1688'});
+    //     }
+    //     // 加载状态结束
+    //     this.loading = false;
+    //     // 数据全部加载完成
+    //     if (this.list.length >= 10) {
+    //       this.finished = true;
+    //     }
+    //   }, 100);
+    // },
     // 根据预约状态判断具体操作
     toTestIndex () {
       this.$router.push('/index')
+    },
+    // 获取预约信息
+    init () {
+      this.$api.getSubscribe().then(res => {
+        this.list = res.data
+      })
+    },
+    // 根据type值返回预约订单的状态
+    statusByType (type) {
+      switch (type) {
+        case 0:
+          return '已撤销'
+          break
+        case 100:
+          return '已预约待问卷'
+          break
+        case 200:
+          return '已问卷待确认套餐'
+          break
+        case 300:
+          return '已确认套餐待支付'
+          break
+        case 400:
+          return '已支付待签章'
+          break
+        case 500:
+          return '已签章待采血'
+          break
+        case 600:
+          return '已采血已送检'
+          break
+        case 700:
+          return '已送检待报告解读'
+          break
+        case 800:
+          return '已完成'
+          break
+      }
     }
 
   }

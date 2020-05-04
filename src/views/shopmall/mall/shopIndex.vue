@@ -5,28 +5,28 @@
     <!-- 手机端用户界面 -->
     <div class="shopIndex-main" v-else>
       <!-- 展示所有套餐 -->
-          <van-list
+          <!-- <van-list
             v-model="loading"
             :finished="finished"
             finished-text="已经到底啦"
             :immediate-check="false"
             @load="onLoad"
-          >
+          > -->
             <div class="shop-wrap flex-wrap">
-                <div class="shop-item" v-for="(item, index) in list" :key="index" @click="$router.push({path: '/shopDetail', query: {id: item}})">
-                  <!-- <img :src="item" alt="" class="shop-item-img"> -->
-                  <van-image :src="item" fit="cover" class="shop-item-img"/>
-                  <p class="shop-item-name">恩贝尔健康检测套餐抵用券A恩贝尔健康检测套餐抵用券A</p>
+                <div class="shop-item" v-for="(item, index) in list" :key="index" @click="$router.push({path: '/shopDetail', query: {goodsId: item.id}})">
+                  <img :src="$base + item.atlas[0].url" alt="" class="shop-item-img">
+                  <!-- <van-image :src="$base + item.atlas[0].url" fit="cover" class="shop-item-img"/> -->
+                  <p class="shop-item-name">{{item.title}}</p>
                   <div class="shop-item-info flex-between">
                     <div class="price-wrap">
-                      <span class="price"><i>¥ </i>1690.00</span>
+                      <span class="price"><i>¥ </i>{{$fmtMoney(item.price)}}</span>
                     </div>
-                    <span class="pre-price">¥1999.00</span>
+                    <span class="pre-price">¥{{$fmtMoney(item.price_old)}}</span>
                     <!-- <button class="buyNow" @click="$router.push({path: '/shopDetail', query: {id: item}})">立即抢购</button> -->
                   </div>
                 </div>
             </div>
-          </van-list>
+          <!-- </van-list> -->
       <!-- 底部 -->
       <tabbar></tabbar>
     </div>
@@ -39,17 +39,18 @@ import ipadShow from './components/ipadShow'
 export default {
   data () {
     return{
-      list: [
-        'http://img95.699pic.com/desgin_photo/40026/5502_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
-        'http://img95.699pic.com/desgin_photo/40082/9478_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
-        'http://img95.699pic.com/desgin_photo/40097/3278_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
-        'http://img95.699pic.com/desgin_photo/40026/5502_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
-        'http://img95.699pic.com/desgin_photo/40082/9478_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
-        'http://img95.699pic.com/desgin_photo/40097/3278_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
-        'http://img95.699pic.com/desgin_photo/40026/5502_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
-        'http://img95.699pic.com/desgin_photo/40082/9478_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
-        'http://img95.699pic.com/desgin_photo/40082/9478_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90'
-        ],
+      // list: [
+      //   'http://img95.699pic.com/desgin_photo/40026/5502_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
+      //   'http://img95.699pic.com/desgin_photo/40082/9478_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
+      //   'http://img95.699pic.com/desgin_photo/40097/3278_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
+      //   'http://img95.699pic.com/desgin_photo/40026/5502_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
+      //   'http://img95.699pic.com/desgin_photo/40082/9478_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
+      //   'http://img95.699pic.com/desgin_photo/40097/3278_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
+      //   'http://img95.699pic.com/desgin_photo/40026/5502_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
+      //   'http://img95.699pic.com/desgin_photo/40082/9478_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
+      //   'http://img95.699pic.com/desgin_photo/40082/9478_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90'
+      //   ],
+      list: [],
       loading: false, // 控制上拉加载
       finished: false, // 数据全部加载完毕
     }
@@ -60,28 +61,33 @@ export default {
   },
   created () {
     this.$judgeUserAgent()
+    this.init()
   },
   mounted () {
 
   },
   methods: {
-    onLoad() {
-      // 异步更新数据
-      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
-        console.log('on Load')
-        setTimeout(() => {
-        // this.loading = true
-        for (let i = 0; i < 3; i++) {
-          this.list.push('http://img95.699pic.com/desgin_photo/40026/5502_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90');
-        }
-        // 加载状态结束
-        this.loading = false;
-        // 数据全部加载完成
-        if (this.list.length >= 10) {
-          this.finished = true;
-        }
-      }, 100);
-    }
+    // 获取商品
+    init () {
+      this.$api.getGoods().then(res => {
+        console.log(res)
+        this.list = this.list.concat(res.data)
+      })
+    },
+    // 预留下拉加载更多
+    // onLoad() {
+    //     setTimeout(() => {
+    //     for (let i = 0; i < 3; i++) {
+    //       this.list.push('http://img95.699pic.com/desgin_photo/40026/5502_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90');
+    //     }
+    //     // 加载状态结束
+    //     this.loading = false;
+    //     // 数据全部加载完成
+    //     if (this.list.length >= 10) {
+    //       this.finished = true;
+    //     }
+    //   }, 100);
+    // }
 
   }
 }

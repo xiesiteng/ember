@@ -40,7 +40,7 @@ export default {
   data () {
     return {
       current: 1,
-      total: 19,
+      total: 2,
       list: list
     }
   },
@@ -49,7 +49,7 @@ export default {
   },
   created () {
     this.$nextTick(()=>{
-      this.init()
+      // this.init()
     })
   },
   mounted () {
@@ -102,8 +102,8 @@ export default {
     pre () {
       this.current--
     },
+    // 纪录这道题用户是否勾选了
     setFlag () {
-      // 纪录这道题用户是否勾选了
       let answer = this.list[this.current - 1].optionlist
       let count = 0
       for (let i = 0; i < answer.length; i++) {
@@ -119,6 +119,8 @@ export default {
     },
     // 提交
     async submit () {
+      this.$router.push('/submitTest')
+      return false
       let res = await this.full()
       // console.log(res)
       if (res !== this.list.length) {
@@ -127,7 +129,6 @@ export default {
         let submit_obj = {order_id: 1, answer_list: []}
         let submitList = await this.fetchData()
         submit_obj.answer_list = submitList
-        // console.log(submit_obj)
         this.$api.submitAllTest(
           submit_obj
         ).then(res => {

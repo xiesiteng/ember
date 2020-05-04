@@ -49,8 +49,8 @@ Vue.prototype.$isblank = function(chr) {
 // +----------------------------------------------------------------------
 // | return:格式化后的时间
 // +----------------------------------------------------------------------
-Vue.prototype.timeFmt = function(time, type) {
-  if (app.isblank(time)) {
+Vue.prototype.$timeFmt = function(time, type) {
+  if (this.$isblank(time)) {
     return "";
   } else {
     var ts = arguments[0] || 0;
@@ -78,5 +78,15 @@ Vue.prototype.timeFmt = function(time, type) {
     } else {
       return y + '-' + (m < 10 ? '0' + m : m) + '-' + (d < 10 ? '0' + d : d);
     };
+  }
+}
+
+// 格式化处理金额
+Vue.prototype.$fmtMoney = function (money) {
+  if (this.$isblank(money)) {
+    return '-'
+  } else{
+    money = Number((parseInt(money) / 100)).toFixed(2)
+    return money
   }
 }

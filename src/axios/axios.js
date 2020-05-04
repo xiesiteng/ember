@@ -23,14 +23,14 @@ const _axios = axios.create(config)
 
 // _axios.defaults.headers.post['Content-Type'] = "application/x-www-form-urlencoded"
 // _axios.defaults.headers.post['Content-Type'] = "application/json; charset=utf-8"
-_axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
+_axios.defaults.headers.common['token'] = localStorage.getItem('token')
 
 
 _axios.interceptors.request.use(
   function (config) {
     // Do something before request is sent
     if (localStorage.getItem('token')) {
-      config.headers.common['Authorization'] = localStorage.getItem('token')
+      config.headers.common['token'] = localStorage.getItem('token')
     }
     if (config.method == 'post') {
       // 可做字符串化传参数据
@@ -58,7 +58,7 @@ _axios.interceptors.response.use(
       localStorage.removeItem('token')
       router.replace(
         {
-          path: '/login',
+          path: '/wxLogin',
           query: { redirect: router.currentRoute.fullPath } // 登录成功后跳入浏览的当前页面
         }
       )

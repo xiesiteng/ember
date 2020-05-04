@@ -10,13 +10,13 @@
     </div>
     <!-- 信息 -->
     <div class="shop-item">
-      <p class="shop-item-name">恩贝尔健康检测套餐抵用券A</p>
+      <p class="shop-item-name">{{info.title}}</p>
       <div class="shop-item-info flex-between">
         <div class="price-wrap">
-          <span class="price"><i>¥ </i>1690.00</span>
-          <span class="pre-price">¥1999.00</span>
+          <span class="price"><i>¥ </i>{{$fmtMoney(info.price)}}</span>
+          <span class="pre-price">¥{{$fmtMoney(info.price_old)}}</span>
         </div>
-        <p class="already-sale">已售25件</p>
+        <p class="already-sale">库存 {{info.goods_num}} 件</p>
       </div>
     </div>
     <!-- 详情标题 -->
@@ -48,7 +48,8 @@ export default {
         'http://img95.699pic.com/desgin_photo/40097/3278_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90'
       ],
       mobileShow: false, // 绑定手机组件
-      buyShow: false
+      buyShow: false,
+      info: {}
     }
   },
   components: {
@@ -61,8 +62,18 @@ export default {
      *   2. 已登录状态下，点击购买先判断是否绑定手机号，未绑定则弹出绑定手机组件
      *   3. 手机已绑定，点击购买弹出购买窗口进行数量选择和支付
      */
+    this.goodsId = this.$route.query.goodsId
+    this.init()
   },
   methods: {
+    // 获取商品详情信息
+    init () {
+      this.$api.getGoodsDetail({
+        goodsId: this.goodsId
+      }).then(res => {
+        this.info = res.data
+      })
+    },
     toBuy () {
       // this.$store.state.mobileShow = true
       this.$store.state.infoShow = true

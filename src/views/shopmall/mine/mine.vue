@@ -43,6 +43,9 @@ export default {
   components: {
     tabbar
   },
+  mounted () {
+    
+  },
   methods: {
 
   }

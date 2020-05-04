@@ -10,12 +10,12 @@
     <div class="package-wrap">
       <!-- 手机号码 -->
       <div class="input-wrap">
-        <input type="tel" placeholder="请输入手机号码" maxlength="11">
+        <input type="tel" placeholder="请输入手机号码" maxlength="11" v-model="phone">
       </div>
       <!-- 验证码 -->
       <div class="input-wrap flex-between">
-        <input type="text" placeholder="请输入验证码">
-        <button class="getCode">获取验证码</button>
+        <input type="text" placeholder="请输入验证码" v-model="code">
+        <button class="getCode" @click="sendMsg()">获取验证码</button>
       </div>
       <!-- 密码登录 -->
       <div class="password-login flex-end">
@@ -31,13 +31,42 @@
 export default {
   data () {
     return {
-
+      phone: '', // 手机号
+      code: ''   // 验证码
     }
   },
   methods: {
+    // 获取验证码
+    sendMsg () {
+      if (this.$isblank(this.phone)) {
+        this.$toast('请输入正确的手机号码')
+        return false
+      }
+      this.$api.getCode({
+        account: this.phone
+      }).then(res => {
+
+      })
+    },
     // 确定
     sure () {
-      this.$router.push('/chooseSubscribe')
+      if (this.$isblank(this.phone)) {
+        this.$toast('请输入正确的手机号码')
+        return false
+      }
+      if (this.$isblank(this.code)) {
+        this.$toast('请输入正确的手机验证码')
+        return false
+      }
+      this.$api.phoneLogin({
+        account: this.phone,
+        code: this.code
+      }).then(res => {
+        console.log(res)
+        let token = res.data.token
+        localStorage.setItem('token', token)
+        this.$router.push('/chooseSubscribe')
+      })
     }
   }
 }
