@@ -10,7 +10,7 @@
     <!-- 问卷测评提交文字信息 -->
     <p class="submit-title">问卷测评完成</p>
     <p class="submit-second-title">您的问卷测评已提交，请耐心等待结果...</p>
-    <custom-button btn-text="查看结果" path="/result"></custom-button>
+    <custom-button btn-text="查看结果" path="/testResult"></custom-button>
   </div>
 </template>
 

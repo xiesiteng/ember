@@ -17,7 +17,9 @@ import wx from 'weixin-js-sdk';
 
 Vue.config.productionTip = false
 
-const base = 'http://192.168.0.118'
+const base = 'http://customer.scember.com'
+// const base = 'http://wework.scember.com'
+// const base = 'http://192.168.0.118'
 Vue.prototype.$base = base
 
 // 全局注册头部导航组件

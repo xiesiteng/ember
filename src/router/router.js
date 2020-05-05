@@ -8,13 +8,13 @@ const allRouters = [
     component: () => import('@/views/index/index'),
     meta: { requireAuth: false }
   },
-  {
-    path: '/result',
-    name: 'result',
-    title: '问卷评测结果',
-    component: () => import('@/views/result/result'),
-    meta: { requireAuth: false }
-  },
+  // {
+  //   path: '/result',
+  //   name: 'result',
+  //   title: '问卷评测结果',
+  //   component: () => import('@/views/result/result'),
+  //   meta: { requireAuth: false }
+  // },
   {
     path: '/submitTest',
     name: 'submitTest',

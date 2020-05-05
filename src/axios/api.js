@@ -9,10 +9,10 @@ const api = {
   // 提交问卷测评
   submitAllTest: data => post('/api/subject/setAnswer', data),
 
-  // 获取商城所有商品
+  // 获取商城所有商品（获取所有套餐种类）
   getGoods: data => post('/api/goods/getGoodsList', data),
 
-  // 获取商城单个商品的详情
+  // 获取商城单个商品的详情（获取单个套餐的详情）
   getGoodsDetail: data => post('/api/Goods/getGoodsDetail', data),
 
   // 获取我的预约列表
@@ -22,7 +22,16 @@ const api = {
   getCode: data => post('/api/sms/sendSms', data),
 
   // 手机短信登录
-  phoneLogin: data => post('/api/login/messageLogin', data)
+  phoneLogin: data => post('/api/login/messageLogin', data),
+
+  // 测评结果，获取结果和推荐套餐
+  getResult: data => post('/api/subject/getAnswer', data),
+
+  // schemeDetail.vue中点击下一步升级套餐
+  updateMeal: data => post('/api/order/upgradeSetmeal', data),
+
+  // ipad端获取支付二维码
+  getQrCode: data => get('/api/scanpay/getWachatPayQrcode', data)
 
 }
 

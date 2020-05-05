@@ -103,10 +103,21 @@ a {
     opacity: 1;
   }
 }
+/* 宽度从 0% 到 100% 渐变 */
+@keyframes wdFade{
+  from{width: 0%;}
+  to{width: 100%;}
+}
 
-/* 右箭头图标大小 */
+/* 右箭头图标 30 x 30 */
 .rightArrow{
   width: 30px;
   height: 30px;
+}
+/* 右箭头图标 22 x 20 */
+.more-arrow{
+  width: 22px;
+  height: 20px;
+  margin-left: 10px;
 }
 

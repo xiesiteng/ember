@@ -32,11 +32,11 @@ export default {
       top: 50%;
       transform: translateY(-50%);
       img{
-        width: 400px;
+        width: 500px;
         height: 400px;
       }
       p{
-        margin-top: -100px;
+        margin-top: -50px;
         font-size: 24px;
         color: #999;
       }

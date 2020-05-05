@@ -3,8 +3,8 @@
     <!-- swiper -->
     <div class="swiper-wrap">
       <van-swipe class="my-swipe" indicator-color="white">
-        <van-swipe-item v-for="(item, index) in 3" :key="index">
-          <img src="http://img95.699pic.com/desgin_photo/40057/8784_list.jpg!/fh/300" alt="">
+        <van-swipe-item v-for="(item, index) in info.atlas" :key="index">
+          <img :src="$base + item.url" alt="">
         </van-swipe-item>
       </van-swipe>
     </div>
@@ -21,10 +21,8 @@
     </div>
     <!-- 详情标题 -->
     <div class="detail-title flex-center">商品详情</div>
-    <!-- 详情 -->
-    <div class="detail-wrap">
-      <img :src="item" alt="" v-for="(item, index) in proList" :key="index">
-    </div>
+    <!-- 详情富文本 -->
+    <div class="detail-wrap" v-html="content"></div>
     <!-- 底部 -->
     <div class="detail-bottom">
       <button class="detail-buy" @click="toBuy()">立即购买</button>
@@ -32,7 +30,7 @@
     <!-- 绑定手机组件 -->
     <bind-mobile></bind-mobile>
     <!-- 购买弹窗组件 -->
-    <buy-info></buy-info>
+    <buy-info :buyInfo="buyInfo"></buy-info>
   </div>
 </template>
 
@@ -42,19 +40,22 @@ import buyInfo from './buyInfo/buyInfo'
 export default {
   data () {
     return {
-      proList: [
-        'http://img95.699pic.com/desgin_photo/40026/5502_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
-        'http://img95.699pic.com/desgin_photo/40082/9478_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
-        'http://img95.699pic.com/desgin_photo/40097/3278_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90'
-      ],
       mobileShow: false, // 绑定手机组件
       buyShow: false,
-      info: {}
+      info: {},
+      buyInfo: {}, // 购买弹框信息
+      content: ''  // 详情富文本内容
     }
   },
   components: {
     bindMobile,
     buyInfo
+  },
+  created () {
+    this.$nextTick(() => {
+      this.goodsId = this.$route.query.goodsId
+      this.init()
+    })
   },
   mounted () {
     /* 
@@ -62,8 +63,6 @@ export default {
      *   2. 已登录状态下，点击购买先判断是否绑定手机号，未绑定则弹出绑定手机组件
      *   3. 手机已绑定，点击购买弹出购买窗口进行数量选择和支付
      */
-    this.goodsId = this.$route.query.goodsId
-    this.init()
   },
   methods: {
     // 获取商品详情信息
@@ -72,10 +71,12 @@ export default {
         goodsId: this.goodsId
       }).then(res => {
         this.info = res.data
+        this.content = res.data.content.replace(/\<img/gi,'<img style="max-width:100%;height:auto;vertical-align:bottom;"')
       })
     },
     toBuy () {
       // this.$store.state.mobileShow = true
+      this.buyInfo = this.info
       this.$store.state.infoShow = true
     }
   }
@@ -174,7 +175,10 @@ export default {
         background-color: #fff;
         padding: 30px;
         box-sizing: border-box;
+        max-width: 100vw;
+        width: 100%;
         img{
+          max-width: 100vw;
           width: 100%;
           height: auto;
         }

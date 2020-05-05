@@ -6,14 +6,14 @@
           <!-- item 左 -->
           <div class="item-left">
             <div class="flex-between scheme-meal">
-              <span>A套餐</span>
-              <p>1600元 / 人次</p>
+              <span>{{item.title}}</span>
+              <!-- <p>{{item.price / 100}}元/人次</p> -->
             </div>
-            <p class="intro">( 结直肠防癌早检 )</p>
+            <p class="intro">{{$fmtMoney(item.price)}} 元 / 人次</p>
           </div>
           <!-- item 右 -->
           <div class="item-right flex-end">
-            <a href="/schemeDetail">查看详情</a>
+            <button @click="$router.push({path: '/schemeDetail', query: {id: item.id}})">查看详情</button>
           </div>
         </div>
       </div>
@@ -24,12 +24,17 @@
 export default {
   data () {
     return {
-      list: [1,1,1,1,1]
+      list: []
     }
+  },
+  mounted () {
+    this.init()
   },
   methods: {
     init () {
-      console.log('loadmore')
+      this.$api.getGoods().then(res => {
+        this.list = res.data
+      })
     }
   }
 }
@@ -59,24 +64,33 @@ export default {
         box-shadow: 0 0 10px #f6f6f6;
         position: relative;
         .item-left{
-          width: 65%;
+          width: 75%;
           .scheme-meal{
             span{
-              font-size: 36px;
+              font-size: 26px;
+              display: inline-block;
+              width: 100%;
+              height: 50px;
+              line-height: 50px;
+              overflow: hidden;
             }
-            p{
-              font-size: 34px;
-              font-weight: bold;
-            }
+            // p{
+            //   font-size: 34px;
+            //   font-weight: bold;
+            // }
           }
           .intro{
-            font-size: 20px;
-            color: #666;
+            font-size: 28px;
+            color: #333;
+            height: 40px;
+            line-height: 40px;
+            overflow: hidden;
+            font-weight: bold;
           }
         }
         .item-right{
-          width: 35%;
-          a{
+          width: 25%;
+          button{
             width: 150px;
             height: 50px;
             text-align: center;

@@ -49,7 +49,8 @@ export default {
   },
   created () {
     this.$nextTick(()=>{
-      // this.init()
+      this.init()
+      console.log(this.$store.state.chooseSubscribeId)
     })
   },
   mounted () {
@@ -119,20 +120,21 @@ export default {
     },
     // 提交
     async submit () {
-      this.$router.push('/submitTest')
-      return false
+      // this.$router.push('/submitTest')
+      // return false
       let res = await this.full()
       // console.log(res)
       if (res !== this.list.length) {
         this.$toast('您还有题目尚未完成，请先完善')
       } else {
-        let submit_obj = {order_id: 1, answer_list: []}
+        // chooseSubscribeId为选择的测评id
+        let submit_obj = {order_id: this.$store.state.chooseSubscribeId, answer_list: []}
         let submitList = await this.fetchData()
         submit_obj.answer_list = submitList
         this.$api.submitAllTest(
           submit_obj
         ).then(res => {
-          // this.$router.push('/submitTest')
+          this.$router.push('/submitTest')
         }) 
       }  
     },

@@ -15,7 +15,7 @@ if (process.env.NODE_ENV == 'development') {
   config.baseURL = 'api'
 } else if (process.env.NODE_ENV == 'production') {
   // build生产环境
-  // config.baseURL = ''
+  config.baseURL = 'http://wework.scember.com'
 }
 
 
@@ -65,8 +65,8 @@ _axios.interceptors.response.use(
 
     } else {
       // 接口状态异常
-      self.$toast(response.data.msg)
-      return Promise.reject(response);
+      // self.$toast(response.data.msg)
+      return Promise.resolve(response);
     }
   },
   function (err) {

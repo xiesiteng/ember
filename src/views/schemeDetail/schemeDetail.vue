@@ -3,24 +3,32 @@
     <custom-header title="套餐详情"></custom-header>
     <!-- 套餐内容 -->
     <div class="detail-wrap">
-      <h3>A套餐</h3>
-      <p class="detail-name">（肠+胃+食道+肝）防癌检测</p>
-      <p class="detail-price">3900元 / 人次</p>
-      <p class="detail-intro">购买D套餐客户尊享赠品：</p>
-      <p class="detail-present" v-for="(item, index) in list" :key="index">{{item}}</p>
+      <h3>{{info.title}}</h3>
+      <p class="detail-name">{{info.subtitle}}</p>
+      <p class="detail-price">{{$fmtMoney(info.price)}} 元 / 人次</p>
+      <p class="detail-intro" v-if="info.gift.length !== 0">购买客户尊享赠品：</p>
+      <p class="detail-present" v-for="(item, index) in info.gift" :key="index">{{item.title}}</p>
       <p class="detail-total">套餐总价值：18280 元</p>
-      <!-- 勾选项 -->
-      <div class="detail-option flex-center">
+      <!-- 此处原为套餐升级，经商议后暂时废弃，2020-05-05 -->
+      <!-- <div class="detail-option flex-center">
         <div class="detail-option-inner flex">
           <span :class="['default', active ? 'default-active' : '']" @click="pick()"></span>
           <p>赠送的A/B套餐可以直接升级到D套餐，升级后只需支付：D 减 A或B</p>
         </div>
+      </div> -->
+      <!-- 使用电子券 -->
+      <div class="detail-voucher flex-between">
+        <p>电子抵用券</p>
+        <div class="voucher-number flex-center-y">
+          <span>{{voucherMsg}}</span>
+          <img src="@/assets/images/rightArrow.png" alt="" class="more-arrow">
+        </div>
       </div>
       <!-- 附加 -->
-      <div class="detail-add">加：采血服务费（150元）、冷链运输费（150元）</div>
+      <div class="detail-add ">{{info.intro}}</div>
     </div>
     <!-- 立即购买 -->
-    <custom-button btnText="立即购买" path="/agreement"></custom-button>
+    <custom-button btnText="下一步" class="buySpace" @tap="next()"></custom-button>
   </div>
 </template>
 
@@ -28,19 +36,38 @@
 export default {
   data () {
     return {
-      list: [
-        '赠送A套餐3份，价值4800元',
-        '赠送B套餐1份，价值2900元',
-        '赠送精美礼品1套，价值280元',
-        '赠送500元的绿之源商城电子代金券',
-      ],
-      active: false // 勾选项
+      active: false, // 勾选项
+      id: '',        // 套餐对应的id
+      info: {},
+      voucherMsg: '暂无可用'
     }
   },
+  mounted () {
+    this.id = this.$route.query.id
+    this.init()
+  },
   methods: {
-    // 勾选项check
-    pick () {
-      this.active = !this.active
+    // 勾选项check，此处原为套餐升级的方法，经商议后暂时废弃，2020-05-05
+    // pick () {
+    //   this.active = !this.active
+    // },
+    // 获取套餐详情
+    init () {
+      this.$api.getGoodsDetail({
+        goodsId: this.id
+      }).then(res => {
+        this.info = res.data
+        console.log(this.info.gift.length)
+      })
+    },
+    // 点击下一步升级套餐
+    next () {
+      this.$api.updateMeal({
+        order_id: this.$store.state.chooseSubscribeId,
+        selected_goods_id: this.info.id
+      }).then(res => {
+        this.$router.push('/agreement')
+      })
     }
   }
 }
@@ -49,7 +76,7 @@ export default {
 <style scoped lang="scss">
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
   .detail-wrap{
-    height: 700px!important;
+    // height: 700px!important;
     margin-bottom: 40px!important;
   }
 }
@@ -60,15 +87,18 @@ export default {
     .detail-wrap{
       width: 600px;
       min-height: 750px;
+      box-sizing: border-box;
+      height: 100%;
       border-radius: 30px;
       background-color: #fff;
       margin: 50px auto 80px;
       text-align: center;
       box-shadow: 0 0 10px #e5e5e5;
+      position: relative;
       // 套餐标题
       h3{
         padding: 30px 0;
-        font-size: 36px;
+        font-size: 32px;
       }
       // 套餐名称
       .detail-name{
@@ -98,41 +128,62 @@ export default {
         font-size: 30px;
         color: #00b2bc;
         font-weight: bold;
-        padding-bottom: 20px;
+        padding: 20px 0 30px;
       }
       // 套餐勾选项
-      .detail-option{
-        .detail-option-inner{
-          width: 440px;
-          align-items: baseline;
-          .default {
-            display: inline-block;
-            width: 17px;
-            height: 17px;
-            border: 3px solid #F2F2F2;
-            border-radius: 5px;
-            background-color: #F2F2F2;
-            margin-right: 10px;
-          }
-          .default-active{
-            background-color: #00b2bc;
-          }
-          p{
-            width: 410px;
-            color: #999;
-            font-size: 24px;
-            text-align: left;
-          }
+      // .detail-option{
+      //   .detail-option-inner{
+      //     width: 440px;
+      //     align-items: baseline;
+      //     .default {
+      //       display: inline-block;
+      //       width: 17px;
+      //       height: 17px;
+      //       border: 3px solid #F2F2F2;
+      //       border-radius: 5px;
+      //       background-color: #F2F2F2;
+      //       margin-right: 10px;
+      //     }
+      //     .default-active{
+      //       background-color: #00b2bc;
+      //     }
+      //     p{
+      //       width: 410px;
+      //       color: #999;
+      //       font-size: 24px;
+      //       text-align: left;
+      //     }
+      //   }
+      // }
+      // 抵用券
+      .detail-voucher{
+        width: 100%;
+        padding: 0 50px;
+        box-sizing: border-box;
+        font-size: 24px;
+        color: #666;
+        .voucher-number{
+          color: #999;
+          font-size: 22px;
         }
       }
       // 套餐附加
       .detail-add{
-        margin-top: 30px;
-        padding: 0 40px;
+        width: 100%;
+        padding: 0 50px;
         box-sizing: border-box;
+        line-height: 1.5;
         font-size: 22px;
         color: #c0c0c0;
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
       }
+    }
+    // 立即购买
+    .buySpace{
+      margin: 50px auto;
     }
   }
 </style>

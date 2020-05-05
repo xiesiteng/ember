@@ -1,31 +1,31 @@
 <template>
-  <div class="info-main">
-    <van-popup 
+  <div class="info-main" v-if="!$isblank(info.id)">
+    <van-popup
     v-model="$store.state.infoShow"
     position="bottom"
     >
     <!-- 购买选项 -->
     <div class="info">
       <div class="info-head">
-        <img src="http://img95.699pic.com/desgin_photo/40057/8784_list.jpg!/fh/300" alt="" class="pro-img">
+        <img :src="$base + info.atlas[0].url" alt="" class="pro-img">
         <div class="info-inner">
           <div class="flex info-price">
-            <p>¥1690.00</p>
-            <span>¥1900.00</span>
+            <p>¥{{$fmtMoney(totalMoney)}}</p>
+            <span>¥{{$fmtMoney(info.price_old)}}</span>
           </div>
-          <p class="info-name">恩贝尔健康检测套餐抵用券</p>
+          <p class="info-name">{{info.title}}</p>
         </div>
         <img src="@/assets/images/close.png" alt="" class="close-img" @click="close()">
       </div>
       <!-- 规格 -->
       <div class="info-guige flex-between">
         <span>规格</span>
-        <p>恩贝尔健康检测套餐抵用券</p>
+        <p>{{info.subtitle}}</p>
       </div>
       <!-- 数量 -->
       <div class="info-number flex-between">
         <span>数量</span>
-        <van-stepper v-model="value" />
+        <van-stepper v-model="value"/>
       </div>
       <!-- 立即购买 -->
       <button class="buyNow">立即购买</button>
@@ -38,10 +38,32 @@
 export default {
   data () {
     return {
-      value: 1
+      value: 1,
+      info: {}
     }
   },
+  props: ['buyInfo'],
+  computed: {
+    // 购买总价
+    totalMoney: function () {
+      if (this.$isblank(this.value)) {
+        return this.info.price
+      } else{
+        return this.info.price * this.value
+      }
+    }
+  },
+  watch: {
+    buyInfo: function () {
+      this.info = this.buyInfo
+    }
+    
+  },
+  mounted () {
+
+  },
   methods: {
+    // 关闭弹窗
     close () {
       this.$store.commit('updateInfoShow', false)
     }

@@ -37,8 +37,8 @@ export default {
 <style lang="scss" scoped>
   .grow{
     span{
-      font-size: 90px;
-      margin-right: 15px;
+      font-size: 22px;
+      margin-right: 3px;
     }
   }
 </style>
