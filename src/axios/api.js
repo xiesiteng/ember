@@ -30,8 +30,11 @@ const api = {
   // schemeDetail.vue中点击下一步升级套餐
   updateMeal: data => post('/api/order/upgradeSetmeal', data),
 
-  // ipad端获取支付二维码
-  getQrCode: data => get('/api/scanpay/getWachatPayQrcode', data)
+  // ipad端获取微信支付二维码
+  getQrCode: data => post('/api/scanpay/getWachatPayQrcode', data),
+
+  // ipad端微信支付结果接口
+  getCodeResult: data => post('/api/scanpay/isScanPaySuccess', data)
 
 }
 

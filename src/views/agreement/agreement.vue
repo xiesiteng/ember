@@ -9,7 +9,7 @@
         <p>我已阅读</p>
       </div>
     </div>
-    <custom-button btnText="立即购买" @tap="toPay()"></custom-button>
+    <custom-button btnText="立即购买" @tap="toPay()" class="bugNow"></custom-button>
   </div>
 </template>
 
@@ -59,7 +59,7 @@ export default {
     background-size: 100% 310px;
     min-height: 100vh;
     min-width: 100vw;
-    position: fixed;
+    // position: fixed;
     .ag-wrap{
       width: 600px;
       height: 750px;
@@ -104,6 +104,10 @@ export default {
             color: #999;
           }
       }
+    }
+    // 立即购买
+    .bugNow{
+      margin: 50px auto;
     }
   }
 </style>

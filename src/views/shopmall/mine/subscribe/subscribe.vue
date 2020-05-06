@@ -16,7 +16,7 @@
           <!-- 预约编号 -->
           <div class="subscribe-item-number flex-between">
             <p>预约编号：{{item.open_ordernumber}}</p>
-            <span class="subscribe-status">{{statusByType(item.type)}}</span>
+            <span class="subscribe-status">{{$statusByType(item.type)}}</span>
           </div>
           <!-- 预约信息 -->
           <div class="subscribe-info">
@@ -36,11 +36,7 @@
 export default {
   data () {
     return{
-      list: [
-        {orderNumber: 'EC202004281015', orderStatus: 0, orderName: '恩贝尔健康检测套餐抵用券A', orderPrice: '1688.00'},
-        {orderNumber: 'EC202004281015', orderStatus: 1, orderName: '恩贝尔健康检测套餐抵用券B', orderPrice: '1688.00'},
-        {orderNumber: 'EC202004281015', orderStatus: 0, orderName: '恩贝尔健康检测套餐抵用券C', orderPrice: '1688.00'}
-      ],
+      list: [],
       loading: false,
       finished: false
     }
@@ -54,38 +50,6 @@ export default {
       this.$api.getSubscribe().then(res => {
         this.list = res.data
       })
-    },
-    // 根据type值返回预约订单的状态
-    statusByType (type) {
-      switch (type) {
-        case 0:
-          return '已撤销'
-          break
-        case 100:
-          return '已预约待问卷'
-          break
-        case 200:
-          return '已问卷待确认套餐'
-          break
-        case 300:
-          return '已确认套餐待支付'
-          break
-        case 400:
-          return '已支付待签章'
-          break
-        case 500:
-          return '已签章待采血'
-          break
-        case 600:
-          return '已采血已送检'
-          break
-        case 700:
-          return '已送检待报告解读'
-          break
-        case 800:
-          return '已完成'
-          break
-      }
     }
     // 预留上拉加载
     // onLoad() {

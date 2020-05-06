@@ -34,6 +34,11 @@
   display: flex;
   align-items: center;
 }
+/* 竖直baseline对齐 */
+.flex-baseline {
+  display: flex;
+  align-items: baseline;
+}
 /* flex水平居中 */
 .flex-center-x {
   display: flex;

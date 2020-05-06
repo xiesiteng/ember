@@ -45,12 +45,11 @@ export default {
     }
   },
   activated () {
-    console.log('activated')
+    // console.log('activated')
   },
   created () {
     this.$nextTick(()=>{
       this.init()
-      console.log(this.$store.state.chooseSubscribeId)
     })
   },
   mounted () {
@@ -60,7 +59,6 @@ export default {
     // 获取问卷测评的题目
     init () {
       this.$api.getAllTest().then(res => {
-        // console.log(res)
         this.list = res.data
         this.total = this.list.length
         // 为每个答案选项添加是否选中的字段
@@ -69,7 +67,6 @@ export default {
             this.$set(optionItem, 'is_selected', -1)
           })
         })
-        console.log(this.list)
       })
     },
     // 点击答案选项
@@ -97,7 +94,6 @@ export default {
     // 下一题
     next () {
       this.current++
-      // console.log(this.list)
     },
     // 上一题
     pre () {
@@ -120,10 +116,7 @@ export default {
     },
     // 提交
     async submit () {
-      // this.$router.push('/submitTest')
-      // return false
       let res = await this.full()
-      // console.log(res)
       if (res !== this.list.length) {
         this.$toast('您还有题目尚未完成，请先完善')
       } else {

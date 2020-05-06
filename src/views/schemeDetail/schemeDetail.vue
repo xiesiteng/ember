@@ -16,14 +16,6 @@
           <p>赠送的A/B套餐可以直接升级到D套餐，升级后只需支付：D 减 A或B</p>
         </div>
       </div> -->
-      <!-- 使用电子券 -->
-      <div class="detail-voucher flex-between">
-        <p>电子抵用券</p>
-        <div class="voucher-number flex-center-y">
-          <span>{{voucherMsg}}</span>
-          <img src="@/assets/images/rightArrow.png" alt="" class="more-arrow">
-        </div>
-      </div>
       <!-- 附加 -->
       <div class="detail-add ">{{info.intro}}</div>
     </div>
@@ -155,18 +147,6 @@ export default {
       //     }
       //   }
       // }
-      // 抵用券
-      .detail-voucher{
-        width: 100%;
-        padding: 0 50px;
-        box-sizing: border-box;
-        font-size: 24px;
-        color: #666;
-        .voucher-number{
-          color: #999;
-          font-size: 22px;
-        }
-      }
       // 套餐附加
       .detail-add{
         width: 100%;

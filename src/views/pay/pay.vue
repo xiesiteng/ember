@@ -49,7 +49,7 @@ export default {
     phoneUser,
     ipadUser
   },
-  mounted () {
+  created () {
     this.$judgeUserAgent()
   },
   methods: {

@@ -20,7 +20,9 @@ export default {
     }
   },
   mounted () {
-    this.initQrCode()
+    if(this.$store.state.isPad) {
+      this.initQrCode()
+    }
   },
   methods: {
     // 获取支付的二维码
@@ -29,7 +31,20 @@ export default {
         order_id: this.$store.state.chooseSubscribeId
       }).then(res => {
         this.wxQrCode = res.data
+        // 开始轮询
+        this.polling()
       })
+    },
+    // 轮询微信扫码支付结果接口
+    polling () {
+      let timer = setInterval(() => {
+        this.$api.getCodeResult({
+          order_id: this.$store.state.chooseSubscribeId
+        }).then(res => {
+          clearInterval(timer)
+          this.$router.push('/paySuccess')
+        })
+      }, 2000)
     }
   }
 }

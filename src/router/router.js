@@ -110,14 +110,14 @@ const allRouters = [
     path: '/shopIndex',
     name: 'shopIndex',
     title: '商城首页',
-    component: () => import('@/views/shopmall/mall/shopIndex'),
+    component: () => import('@/views/shopmall/mall/shopIndex/shopIndex'),
     meta: { requireAuth: false }
   },
   {
     path: '/mine',
     name: 'mine',
     title: '个人中心',
-    component: () => import('@/views/shopmall/mine/mine'),
+    component: () => import('@/views/shopmall/mine/home/mine'),
     meta: { requireAuth: false }
   },
   {
@@ -139,6 +139,20 @@ const allRouters = [
     name: 'subscribe',
     title: '我的预约',
     component: () => import('@/views/shopmall/mine/subscribe/subscribe'),
+    meta: { requireAuth: true }
+  },
+  {
+    path: '/subscribeDetail',
+    name: 'subscribeDetail',
+    title: '预约详情',
+    component: () => import('@/views/shopmall/mine/subscribe/subscribeDetail'),
+    meta: { requireAuth: true }
+  },
+  {
+    path: '/report',
+    name: 'report',
+    title: '报告解读',
+    component: () => import('@/views/shopmall/mine/subscribe/report'),
     meta: { requireAuth: true }
   },
   {

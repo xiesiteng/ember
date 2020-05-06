@@ -22,7 +22,6 @@
                       <span class="price"><i>¥ </i>{{$fmtMoney(item.price)}}</span>
                     </div>
                     <span class="pre-price">¥{{$fmtMoney(item.price_old)}}</span>
-                    <!-- <button class="buyNow" @click="$router.push({path: '/shopDetail', query: {id: item}})">立即抢购</button> -->
                   </div>
                 </div>
             </div>
@@ -39,20 +38,9 @@ import ipadShow from './components/ipadShow'
 export default {
   data () {
     return{
-      // list: [
-      //   'http://img95.699pic.com/desgin_photo/40026/5502_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
-      //   'http://img95.699pic.com/desgin_photo/40082/9478_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
-      //   'http://img95.699pic.com/desgin_photo/40097/3278_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
-      //   'http://img95.699pic.com/desgin_photo/40026/5502_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
-      //   'http://img95.699pic.com/desgin_photo/40082/9478_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
-      //   'http://img95.699pic.com/desgin_photo/40097/3278_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
-      //   'http://img95.699pic.com/desgin_photo/40026/5502_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
-      //   'http://img95.699pic.com/desgin_photo/40082/9478_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90',
-      //   'http://img95.699pic.com/desgin_photo/40082/9478_detail.jpg!detail860/fw/562/crop/0x0a0a1109/quality/90'
-      //   ],
-      list: [],
-      loading: false, // 控制上拉加载
-      finished: false, // 数据全部加载完毕
+      list: []
+      // loading: false, // 控制上拉加载
+      // finished: false, // 数据全部加载完毕
     }
   },
   components: {

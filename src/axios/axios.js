@@ -63,10 +63,12 @@ _axios.interceptors.response.use(
         }
       )
 
-    } else {
+    } else if (response.data.code == 100) {
       // 接口状态异常
-      // self.$toast(response.data.msg)
+      self.$toast(response.data.msg)
       return Promise.resolve(response);
+    } else{
+      return Promise.reject(response);
     }
   },
   function (err) {

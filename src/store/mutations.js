@@ -6,6 +6,7 @@ export default {
   
   // 改变isPad的状态
   updateIsPad (state, data) {
+    sessionStorage.setItem('isPad', data)
     state.isPad = data
   },
   // 改变mobileShow的状态

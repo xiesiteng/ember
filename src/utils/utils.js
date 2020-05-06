@@ -81,12 +81,46 @@ Vue.prototype.$timeFmt = function(time, type) {
   }
 }
 
-// 格式化处理金额
+// 格式化处理金额, money: 金额数值
 Vue.prototype.$fmtMoney = function (money) {
   if (this.$isblank(money)) {
     return '-'
   } else{
     money = Number((parseInt(money) / 100)).toFixed(2)
     return money
+  }
+}
+
+// 预约状态根据状态数值返回对应的文字
+// 0已撤销;100 已预约待问卷；200已问卷待确认套餐；300已确认套餐待支付；400已支付待签章；500已签章待采血；600已采血已送检；700已送检待报告解读；800已完成
+Vue.prototype.$statusByType = function (type) {
+  switch (type) {
+    case 0:
+      return '已撤销'
+      break
+    case 100:
+      return '已预约待问卷'
+      break
+    case 200:
+      return '已问卷待确认套餐'
+      break
+    case 300:
+      return '已确认套餐待支付'
+      break
+    case 400:
+      return '已支付待签章'
+      break
+    case 500:
+      return '已签章待采血'
+      break
+    case 600:
+      return '已采血已送检'
+      break
+    case 700:
+      return '已送检待报告解读'
+      break
+    case 800:
+      return '已完成'
+      break
   }
 }
