@@ -15,7 +15,7 @@
         :immediate-check="false"
         @load="onLoad"
       > -->
-        <div class="subscribe-item" v-for="(item, index) in list" :key="index" @click="toTestIndex(item.id, item.type)" v-show="item.type == 100 || item.type == 200 || item.type == 300">
+        <div class="subscribe-item" v-for="(item, index) in list" :key="index" @click="toTestIndex(item.id, item.type, item.goods_id)" v-show="item.type == 100 || item.type == 200 || item.type == 300">
           <!-- 预约编号 -->
           <div class="subscribe-item-number flex-between">
             <p>预约编号：{{item.open_ordernumber}}</p>
@@ -39,10 +39,7 @@
 export default {
   data () {
     return{
-      list: [
-        {orderNumber: 'EC202004281015', orderStatus: 0, orderName: '恩贝尔健康检测套餐抵用券A', orderPrice: '1688.00'},
-        {orderNumber: 'EC202004281015', orderStatus: 1, orderName: '恩贝尔健康检测套餐抵用券B', orderPrice: '1688.00'}
-      ],
+      list: [],
       loading: false,
       finished: false
     }
@@ -70,8 +67,9 @@ export default {
     //   }, 100);
     // },
     // 根据预约状态判断具体操作
-    toTestIndex (id, type) {
+    toTestIndex (id, type, goods_id) {
       this.$store.commit('setChooseSubscribeId', id)
+      this.$store.commit('setGoodsId', goods_id)
       // this.$router.push('/index')
       if (type == 100) {
         this.$router.push('/index')

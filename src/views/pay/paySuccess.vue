@@ -22,7 +22,15 @@
 
 <script>
 export default {
-
+  data () {
+    return{
+      info: {}
+    }
+  },
+  mounted () {
+    this.info = this.$route.query.result
+  },
+  methods: {}
 }
 </script>
 

@@ -8,7 +8,8 @@ import {
   Swipe,
   SwipeItem,
   Dialog,
-  Image as VanImage
+  Image as VanImage,
+  Loading
 } from 'vant';
 
 Vue.use(List);
@@ -19,6 +20,7 @@ Vue.use(SwipeItem);
 Vue.use(Toast);
 Vue.use(Dialog);
 Vue.use(VanImage);
+Vue.use(Loading);
 
 Vue.prototype.$toast = Toast
 Vue.prototype.$dailog = Dialog

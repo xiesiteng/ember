@@ -42,7 +42,7 @@ export default {
           order_id: this.$store.state.chooseSubscribeId
         }).then(res => {
           clearInterval(timer)
-          this.$router.push('/paySuccess')
+          this.$router.push({path: '/paySuccess', query: {result: res.data}})
         })
       }, 2000)
     }

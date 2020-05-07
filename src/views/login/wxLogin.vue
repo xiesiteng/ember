@@ -10,7 +10,7 @@
             <p>我已阅读</p>
           </div>
         </div>
-        <custom-button btnText="微信登录" @tap="doLogin()"></custom-button>
+        <custom-button btnText="微信登录" @tap="Login()"></custom-button>
     </div>
     <!-- 手机端用户登录界面end -->
 </template>
@@ -32,12 +32,15 @@ export default {
             '3 、本人保证以下所填写声明信息的真实性、准确性，如有不实告知，贵公司有权解除保险合同，并对合同解除前发生的保险事故不承担保险金给付责任。'
     }
   },
+  mounted () {
+    console.log(this.$route.query.redirect, '111')
+  },
   methods: {
     // 勾选项check
     pick () {
       this.active = !this.active
     },
-    doLogin () {
+    Login () {
       if (!this.active) {
         this.$toast('请您先勾选 我已阅读 选项框哟~')
         return false

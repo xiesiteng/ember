@@ -34,7 +34,16 @@ const api = {
   getQrCode: data => post('/api/scanpay/getWachatPayQrcode', data),
 
   // ipad端微信支付结果接口
-  getCodeResult: data => post('/api/scanpay/isScanPaySuccess', data)
+  getCodeResult: data => post('/api/scanpay/isScanPaySuccess', data),
+
+  // 手机端微信登录
+  wxLogin: data => post('/api/login/wxOfficialLogin', data),
+
+  // ipad端扫码微信登录
+  getIpadLogin: data => post('/api/login/wxOpenplatformLogin', data),
+
+  // 手机端微信支付
+  phoneWxPay: data => post('/api/Wxofficialpay/doPay', data)
 
 }
 

@@ -47,7 +47,12 @@ export default {
     pay () {
       // 发起微信支付
       if (this.WX) {
-        this.$router.push('/paySuccess')
+        this.$api.phoneWxPay({
+          goods_id: this.$store.state.goods_id
+        }).then(res => {
+          console.log(res)
+        })
+        // this.$router.push('/paySuccess')
       } else {
         // 发起支付宝支付
         this.$router.push('/payFail')

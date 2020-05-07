@@ -3,8 +3,8 @@
     <div class="inner-wrap">
       <!-- 个人信息 -->
       <div class="person-info flex-center-col">
-        <img src="@/assets/images/user_default.png" alt="" class="head-img">
-        <span class="nickName">点击登录</span>
+        <img :src="myFace" alt="" class="head-img">
+        <span class="nickName" @click="Login()">{{myNickname}}</span>
       </div>
       <!-- 购买记录 -->
       <div class="content-wrap">
@@ -43,11 +43,32 @@ export default {
   components: {
     tabbar
   },
+  computed: {
+    myFace () {
+      return this.$store.state.face
+    },
+    myNickname () {
+      return this.$store.state.nickname
+    }
+  },
+  watch: {
+    myFace: function () {
+      this.myFace = JSON.parse(localStorage.getItem('user')).face
+    },
+    myFace: function () {
+      this.myNickname = JSON.parse(localStorage.getItem('user')).nickname
+    }
+  },
   mounted () {
-    
+
   },
   methods: {
-
+    // 点击立即登录
+    Login () {
+      if (this.$store.state.nickname === '立即登录') {
+        this.$doLogin()
+      }
+    }
   }
 }
 </script>

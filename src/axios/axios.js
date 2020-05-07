@@ -23,7 +23,7 @@ const _axios = axios.create(config)
 
 // _axios.defaults.headers.post['Content-Type'] = "application/x-www-form-urlencoded"
 // _axios.defaults.headers.post['Content-Type'] = "application/json; charset=utf-8"
-_axios.defaults.headers.common['token'] = localStorage.getItem('token')
+// _axios.defaults.headers.common['token'] = localStorage.getItem('token')
 
 
 _axios.interceptors.request.use(
@@ -50,29 +50,31 @@ let self = Vue.prototype
 // Add a response interceptor
 _axios.interceptors.response.use(
   function (response) {
+    // console.log(response)
     if (response.data.code == 0) {
       // 接口状态正常
       return Promise.resolve(response);
     } else if (response.data.code == -100) {
-      self.$toast('登录已过期，请重新登录')
-      localStorage.removeItem('token')
-      router.replace(
-        {
-          path: '/wxLogin',
-          query: { redirect: router.currentRoute.fullPath } // 登录成功后跳入浏览的当前页面
-        }
-      )
+      self.$doLogin()
+      // self.$toast('登录已过期，请重新登录')
+      // localStorage.removeItem('token')
+      // router.replace(
+      //   {
+      //     path: '/wxLogin',
+      //     query: { redirect: router.currentRoute.fullPath } // 登录成功后跳入浏览的当前页面
+      //   }
+      // )
 
     } else if (response.data.code == 100) {
       // 接口状态异常
       self.$toast(response.data.msg)
-      return Promise.resolve(response);
+      return Promise.reject(response);
     } else{
       return Promise.reject(response);
     }
   },
   function (err) {
-    self.$toast(err.msg)
+    // self.$toast(err.msg)
     return Promise.reject(err)
   }
 )

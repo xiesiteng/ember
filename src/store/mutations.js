@@ -21,5 +21,9 @@ export default {
   setChooseSubscribeId (state, data) {
     sessionStorage.setItem('chooseSubscribeId', data)
     state.chooseSubscribeId = sessionStorage.getItem('chooseSubscribeId')
+  },
+  setGoodsId (state, data) {
+    sessionStorage.setItem('goods_id', data)
+    state.chooseSubscribeId = sessionStorage.getItem('goods_id')
   }
 }

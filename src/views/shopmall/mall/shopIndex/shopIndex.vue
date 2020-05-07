@@ -49,7 +49,10 @@ export default {
   },
   created () {
     this.$judgeUserAgent()
-    this.init()
+    // 若不为ipad则调用接口获取商品列表展示在手机端首页
+    if (!this.$store.state.isPad){
+      this.init()
+    }
   },
   mounted () {
 

@@ -1,6 +1,94 @@
 
 import Vue from 'vue'
 
+// ipad端扫码
+Vue.prototype.$ipadLogin = function() {
+  var _this = this;
+//#ifdef H5
+  var code = _this.$getQueryVariable("code");
+  var url = 'http://customer.scember.com/sweepCodeLogin';
+  // var url = window.location.href;
+  if(this.$isblank(code)){			
+    location.href = "https://open.weixin.qq.com/connect/qrconnect?appid=wx589d4ad5efa584dd&redirect_uri="
+                    + encodeURIComponent(url) + "&response_type=code&scope=snsapi_login&state=$state#wechat_redirect";
+  }else{
+    _this.$api.getIpadLogin({
+      auth_code: code
+    }).then(res => {
+      // console.log(res)
+      if(!_this.$isblank(res.data.token)){ 
+        localStorage.setItem('user',JSON.stringify(res.data.user));
+        localStorage.setItem('token', res.data.token);
+        // history.pushState({},'恩贝尔',_this.$delQueryVariable(url,"code"))
+        this.$router.push('/chooseSubscribe')
+      }else{
+        _this.$toast("登录失败");
+      }
+    });
+  }
+//#endif	
+}
+
+// 公众号执行微信登录
+Vue.prototype.$doLogin = function() {
+	  var _this = this;
+	//#ifdef H5
+    var code = _this.$getQueryVariable("code");
+    var url = 'http://customer.scember.com/mine';
+    // var url = window.location.href;
+		if(this.$isblank(code)){			
+      location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx520ed7fc5d46297f&redirect_uri="
+                       + encodeURIComponent(url) + "&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect";
+		}else{
+			_this.$api.wxLogin({
+				code: code
+			}).then(res => {
+        // console.log(res)
+				if(!_this.$isblank(res.data.token)){ 
+          localStorage.setItem('user',JSON.stringify(res.data.user));
+          localStorage.setItem('token', res.data.token);
+          // history.pushState({},'恩贝尔',_this.$delQueryVariable(url,"code"))
+        }else{
+          _this.$toast("登录失败");
+        }
+			});
+		}
+	//#endif	
+}
+
+//获取url参数=====H5
+Vue.prototype.$getQueryVariable = function(name) {
+	if (name == null || name == 'undefined') {return null; }	
+	var searchStr = decodeURI(location.search);	
+	var infoIndex = searchStr.indexOf(name + "=");	
+	if (infoIndex == -1) { return null; }	
+	var searchInfo = searchStr.substring(infoIndex + name.length + 1);	
+	var tagIndex = searchInfo.indexOf("&");	
+	if (tagIndex!= -1) { searchInfo = searchInfo.substring(0, tagIndex); }	
+	return searchInfo;
+}
+
+//删除url参数=====H5
+Vue.prototype.$delQueryVariable = function(url, parameter) {
+	var urlparts = url.split('?');
+	if(urlparts.length >= 2) {
+		//参数名前缀
+		var prefix = encodeURIComponent(parameter) + '=';
+		var pars = urlparts[1].split(/[&;]/g);
+
+		//循环查找匹配参数
+		for(var i = pars.length; i-- > 0;) {
+			if(pars[i].lastIndexOf(prefix, 0) !== -1) {
+				//存在则删除
+				pars.splice(i, 1);
+			}
+		}
+
+		return urlparts[0] + (pars.length > 0 ? '?' + pars.join('&') : '');
+	}
+	return url;
+}
+
 
 // 路由跳转，path为需要跳转的路由，eg： this.toTurn('/index')
 Vue.prototype.$toTurn = function (path) {
@@ -20,6 +108,7 @@ Vue.prototype.$judgeUserAgent = function () {
                 // ipad用户
                 this.$store.commit('updateIsPad', true)
             }else{
+              console.log('pccc')
                 this.$store.commit('updateIsPad', true)
             }
           } catch(e){}
