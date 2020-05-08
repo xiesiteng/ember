@@ -22,8 +22,19 @@ export default {
     sessionStorage.setItem('chooseSubscribeId', data)
     state.chooseSubscribeId = sessionStorage.getItem('chooseSubscribeId')
   },
+  // 存储goods_id的值
   setGoodsId (state, data) {
     sessionStorage.setItem('goods_id', data)
-    state.chooseSubscribeId = sessionStorage.getItem('goods_id')
+    state.goods_id = sessionStorage.getItem('goods_id')
+  },
+  // 登录之后改变用户头像
+  setFace (state, data) {
+    state.face = data
+    // state.face = JSON.parse(localStorage.getItem('user').face)
+  },
+  // 登录之后改变用户头像
+  setNickname (state, data) {
+    state.nickname = data
+    // state.nickname = JSON.parse(localStorage.getItem('user').nickname)
   }
 }

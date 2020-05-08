@@ -21,6 +21,7 @@
   -moz-osx-font-smoothing: grayscale;
   color: #333;
   font-size: 28px;
+  overflow-x: hidden;
 }
 body{margin: 0;font-size: 28px;}
 

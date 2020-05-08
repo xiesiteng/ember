@@ -5,45 +5,45 @@
     <ul class="order-nav flex-center-y">
       <li
         v-for="(item, index) in orderNav" :key="index"
-        :class="['order-nav-item', active == index ? 'order-nav-item-active' : '']"
-        @click="choose(index)"
+        :class="['order-nav-item', active == item.type ? 'order-nav-item-active' : '']"
+        @click="choose(item.type)"
       >
-        {{item}}
+        {{item.name}}
       </li>
     </ul>
     <!-- 数据为空 -->
     <empty-data v-if="list.length == 0" text="您还没有相关的订单"></empty-data>
     <!-- 订单 -->
     <div class="order-wrap" v-else>
-      <van-list
+      <!-- <van-list
         v-model="loading"
         :finished="finished"
         finished-text="已经到底啦"
         :immediate-check="false"
         @load="onLoad"
-      >
+      > -->
         <div class="order-item" v-for="(item, index) in list" :key="index">
           <!-- 订单编号 -->
           <div class="order-item-number flex-between">
-            <p>订单编号：{{item.orderNumber}}</p>
-            <span :class="[item.orderStatus == 0 ? 'wait-pay' : 'already-pay']">{{item.orderStatus == 0 ? '待支付' : '已支付'}}</span>
+            <p>订单编号：{{item.open_ordernumber}}</p>
+            <span :class="[item.type == 100 ? 'wait-pay' : 'already-pay']">{{item.type == 100 ? '待支付' : '已支付'}}</span>
           </div>
           <!-- 订单内容 -->
           <div class="order-item-info flex-between">
             <div class="info-left">
-              <img src="http://img95.699pic.com/desgin_photo/40057/8784_list.jpg!/fh/300" alt="">
+              <img :src="$base + item.goods_thumb" alt="">
             </div>
             <div class="info-right">
-              <p class="order-item-name">{{item.orderName}}</p>
-              <p class="order-item-price">{{item.orderStatus == 0 ? '待支付' : '已支付'}}金额：<span>¥{{item.orderPrice}}</span></p>
-              <div class="button-group flex-end" v-show="item.orderStatus == 0">
+              <p class="order-item-name">{{item.goods_title}}</p>
+              <p class="order-item-price">{{item.type == 100 ? '待支付' : '已支付'}}金额：<span>¥ {{$fmtMoney(item.price)}}</span></p>
+              <div class="button-group flex-end" v-show="item.type == 100">
                 <button class="cancel-order" @click="cancelOrder()">取消订单</button>
-                <button class="go-pay">去支付</button>
+                <button class="go-pay" @click="pay()">去支付</button>
               </div>
             </div>
           </div>
         </div>
-      </van-list>
+      <!-- </van-list> -->
     </div>
   </div>
 </template>
@@ -52,42 +52,37 @@
 export default {
   data () {
     return{
-      orderNav: ['全部', '待支付', '已支付'],
+      orderNav: [
+        {name: '全部', type: 0},
+        {name: '待支付', type: 100},
+        {name: '已完成', type: 200},
+        ],
       active: 0, // 菜单激活状态
       loading: false,
       finished: false,
-      list: [
-        {orderNumber: 'EC202004281015', orderStatus: 0, orderName: '恩贝尔健康检测套餐抵用券A', orderPrice: '1688'},
-        {orderNumber: 'EC202004281015', orderStatus: 1, orderName: '恩贝尔健康检测套餐抵用券B', orderPrice: '1688'},
-        {orderNumber: 'EC202004281015', orderStatus: 0, orderName: '恩贝尔健康检测套餐抵用券C', orderPrice: '1688'},
-        {orderNumber: 'EC202004281015', orderStatus: 1, orderName: '恩贝尔健康检测套餐抵用券D', orderPrice: '1688'},
-        {orderNumber: 'EC202004281015', orderStatus: 0, orderName: '恩贝尔健康检测套餐抵用券E', orderPrice: '1688'},
-      ]
+      list: []
     }
   },
-  mounted () {},
+  mounted () {
+    this.choose(this.active)
+  },
   methods: {
     // 菜单栏切换
-    choose (index) {
-      this.active = index
+    choose (type) {
+      if (type == 0) {
+        this.active = ""
+        this.init()
+      } else {
+        this.active = type
+        this.init()
+      }
     },
-    // 上拉加载
-    onLoad() {
-      // 异步更新数据
-      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
-        console.log('on Load')
-        setTimeout(() => {
-        // this.loading = true
-        for (let i = 0; i < 3; i++) {
-          this.list.push({orderNumber: 'EC202004281015', orderStatus: 0, orderName: '恩贝尔健康检测套餐抵用券A', orderPrice: '1688'});
-        }
-        // 加载状态结束
-        this.loading = false;
-        // 数据全部加载完成
-        if (this.list.length >= 10) {
-          this.finished = true;
-        }
-      }, 100);
+    init () {
+      this.$api.getOrder({
+        type: this.active
+      }).then(res => {
+        this.list = res.data
+      })
     },
     // 取消订单
     cancelOrder () {
@@ -99,10 +94,27 @@ export default {
         console.log('sure')
       })
       .catch(() => {
-        // on cancel
-        console.log('cancel')
+        // do something on cancel
       });
-    }
+    },
+    // 预留上拉加载
+    // onLoad() {
+    //   // 异步更新数据
+    //   // setTimeout 仅做示例，真实场景中一般为 ajax 请求
+    //     console.log('on Load')
+    //     setTimeout(() => {
+    //     // this.loading = true
+    //     for (let i = 0; i < 3; i++) {
+    //       this.list.push({orderNumber: 'EC202004281015', orderStatus: 0, orderName: '恩贝尔健康检测套餐抵用券A', orderPrice: '1688'});
+    //     }
+    //     // 加载状态结束
+    //     this.loading = false;
+    //     // 数据全部加载完成
+    //     if (this.list.length >= 10) {
+    //       this.finished = true;
+    //     }
+    //   }, 100);
+    // },
   }
 }
 </script>

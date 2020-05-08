@@ -12,7 +12,7 @@
         :immediate-check="false"
         @load="onLoad"
       > -->
-        <div class="subscribe-item" v-for="(item, index) in list" :key="index">
+        <div class="subscribe-item" v-for="(item, index) in list" :key="index" @click="doByStatus(item.id, item.type, item.goods_id)">
           <!-- 预约编号 -->
           <div class="subscribe-item-number flex-between">
             <p>预约编号：{{item.open_ordernumber}}</p>
@@ -50,6 +50,23 @@ export default {
       this.$api.getSubscribe().then(res => {
         this.list = res.data
       })
+    },
+    // 根据预约状态判断具体操作
+    doByStatus (id, type, goods_id) {
+      this.$store.commit('setChooseSubscribeId', id)
+      this.$store.commit('setGoodsId', goods_id)
+      // do something by status
+      switch (type) {
+        case 100:
+          this.$router.push('/index')
+          break
+        case 200:
+          this.$router.push('/testResult')
+          break
+        case 300:
+          this.$router.push('/pay')
+          break
+      }
     }
     // 预留上拉加载
     // onLoad() {

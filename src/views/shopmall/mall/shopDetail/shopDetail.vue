@@ -16,7 +16,7 @@
           <span class="price"><i>¥ </i>{{$fmtMoney(info.price)}}</span>
           <span class="pre-price">¥{{$fmtMoney(info.price_old)}}</span>
         </div>
-        <p class="already-sale">库存 {{info.goods_num}} 件</p>
+        <p class="already-sale">库存 {{$isblank(info.goods_num) ? '1' : info.goods_num}} 件</p>
       </div>
     </div>
     <!-- 详情标题 -->
@@ -74,10 +74,15 @@ export default {
         this.content = res.data.content.replace(/\<img/gi,'<img style="max-width:100%;height:auto;vertical-align:bottom;"')
       })
     },
-    toBuy () {
-      // this.$store.state.mobileShow = true
-      this.buyInfo = this.info
-      this.$store.state.infoShow = true
+    async toBuy () {
+      // 判断是否绑定手机号：-1 未绑定则弹出绑手机窗口， 1 已绑定弹出购买窗口
+      let res = await this.$api.whetherBindPhone({})
+      if (res.data == -1) {
+        this.$store.state.mobileShow = true
+      } else{
+        this.buyInfo = this.info
+        this.$store.state.infoShow = true
+      }
     }
   }
 }

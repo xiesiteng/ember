@@ -14,7 +14,7 @@ module.exports = {
     proxy: {
       '/api': {
         // 目标 API 地址
-//         target: 'http://customer.scember.com',
+//         target: 'http://wework.scember.com',
         target: 'http://192.168.0.118',
         // 如果要代理 websockets
         ws: true,

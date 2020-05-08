@@ -112,7 +112,7 @@ export default {
         // 图片
         .shop-item-img{
           width: 100%!important;
-          height: 400px!important;
+          height: auto!important;
           display: block;
         }
         // 名称

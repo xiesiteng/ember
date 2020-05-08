@@ -6,17 +6,18 @@
       <p>支付成功</p>
     </div>
     <!-- 订单编号 -->
-    <div class="order-number">订单编号：000006</div>
+    <!-- <div class="order-number">订单编号：000006</div> -->
     <!-- 订单信息 -->
-    <div class="order-info">
+    <!-- <div class="order-info">
       <p>购买套餐：A套餐</p>
       <p>支付金额：18100.00</p>
       <p>支付时间：2020-04-15 10:04</p>
-    </div>
+    </div> -->
     <!-- 温馨提示 -->
     <p class="tips flex-center">温馨提示：关注公众号，可以实时查看自己的订单进度。</p>
     <!-- 按钮 -->
-    <custom-button btnText="退出登录"></custom-button>
+    <custom-button btnText="退出登录" v-if="$store.state.isPad"></custom-button>
+    <custom-button btnText="返回首页" v-else @tap="toPage()"></custom-button>
   </div>
 </template>
 
@@ -24,13 +25,17 @@
 export default {
   data () {
     return{
-      info: {}
+      // info: {},
     }
   },
   mounted () {
-    this.info = this.$route.query.result
+    this.$judgeUserAgent()
   },
-  methods: {}
+  methods: {
+    toPage () {
+      this.$router.push('/shopIndex')
+    }
+  }
 }
 </script>
 

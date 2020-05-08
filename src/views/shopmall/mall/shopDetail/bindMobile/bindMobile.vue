@@ -6,9 +6,12 @@
       >
       <!-- 绑定手机 -->
       <div class="mobile-wrap flex-center-col">
-        <input type="number" maxlength="11" placeholder="请绑定手机号码" v-model="phone" pattern="[0-9]*" oninput="if(value.length > 11)value = value.slice(0, 11)">
-        <!-- <input type="tel" maxlength="11" placeholder="请绑定手机号码" v-model="phone"> -->
-        <button @click="bind()">确定</button>
+        <input type="number" maxlength="11" placeholder="请先绑定手机号码" v-model="phone" class="tel-input" pattern="[0-9]*" oninput="if(value.length > 11)value = value.slice(0, 11)">
+        <div class="yzm-wrap flex-between">
+          <input type="number" v-model="code" placeholder="验证码" pattern="[0-9]*" oninput="if(value.length > 4)value = value.slice(0, 4)">
+          <button class="yzm" @click="sendMsg()">获取验证码</button>
+        </div>
+        <button class="sure" @click="bind()">确定</button>
         <img src="@/assets/images/close.png" alt="" class="close-btn" @click="close()">
       </div>
     </van-popup>
@@ -19,13 +22,28 @@
 export default {
   data () {
     return{
-      phone: ''
+      phone: '', // 手机号码
+      code: ''   // 验证码
     }
   },
   methods: {
     // 关闭弹窗，改变store中mobileShow的状态
     close () {
+      this.phone = ''
+      this.code = ''
       this.$store.commit('updateMobileShow', false)
+    },
+    // 获取验证码
+    sendMsg () {
+      if (this.$isblank(this.phone)) {
+        this.$toast('请输入正确的手机号码')
+        return false
+      }
+      this.$api.getCode({
+        account: this.phone
+      }).then(res => {
+        this.$toast('验证码发送成功')
+      })
     },
     // 绑定手机号
     bind () {
@@ -33,8 +51,13 @@ export default {
         this.$toast('请输入手机号码')
         return false
       }
-      this.$store.commit('updateMobileShow', false)
-      this.$toast('绑定成功')
+      this.$api.shopBindPhone({
+        account: this.phone,
+        code: this.code
+      }).then(res => {
+        this.close()
+        this.$toast('绑定成功')
+      })
     }
   }
 }
@@ -48,28 +71,30 @@ export default {
       width: 100%;
       background-color: #fff;
       position: relative;
-      input{
+      .tel-input{
         padding: 20px 30px;
         box-sizing: border-box;
-        margin: 0 auto 80px;
+        margin: -100px auto 0px;
         // border-radius: 50px;
         border-bottom: 1px solid #eee;
-        width: 400px;
+        width: 450px;
       }
-      ::-webkit-input-placeholder { /* Chrome/Opera/Safari */ 
-			  padding-left: 70px;
-        color: #ccc;
+      .yzm-wrap{
+        width: 450px;
+        border-bottom: 1px solid #eee;
+        margin-top: 30px;
+        input{
+          padding: 20px 30px;
+          box-sizing: border-box;
+          width: 200px;
+        }
+        .yzm{
+          padding: 5px 10px;
+          box-sizing: border-box;
+          background-color: #fff;
+        }
       }
-      ::-moz-placeholder { /* Firefox 19+ */  
-        padding-left: 70px;
-      }
-      :-ms-input-placeholder { /* IE 10+ */ 
-        padding-left: 70px;
-      }
-      :-moz-placeholder { /* Firefox 18- */ 
-        padding-left: 70px;
-      }
-      button{
+      .sure{
         background-color: #00b2bc;
         width: 450px;
         height: 80px;

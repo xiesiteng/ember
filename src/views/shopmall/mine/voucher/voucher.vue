@@ -5,24 +5,24 @@
     <!-- 切换栏 -->
     <ul class="nav flex-center-y">
       <li
-      :class="['nav-item flex-center', active == index ? 'nav-item-active' : '']"
+      :class="['nav-item flex-center', active == item.type ? 'nav-item-active' : '']"
       v-for="(item, index) in navList" :key="index"
-      @click="choose(index)"
+      @click="choose(item.type)"
       >
-      {{item}}
+      {{item.name}}
       </li>
     </ul>
     <!-- 请求数据为空 -->
     <empty-data v-show="list.length == 0"></empty-data>
     <!-- 抵用券列表 -->
-    <van-list
+    <!-- <van-list
       v-show="list.length !== 0"
       v-model="loading"
       :finished="finished"
       finished-text="已经到底啦"
       :immediate-check="false"
       @load="onLoad"
-    >
+    > -->
       <div class="shop-wrap">
           <div class="shop-item" v-for="(item, index) in list" :key="index">
             <img src="@/assets/images/health-test.png" alt="" class="shop-item-img">
@@ -35,7 +35,7 @@
             </div>
           </div>
       </div>
-    </van-list>
+    <!-- </van-list> -->
 
   </div>
 </template>
@@ -44,43 +44,51 @@
 export default {
   data () {
     return{
-      active: 0,
-      navList: ['未使用', '已使用', '已过期'],
-      list: [1, 1, 1],
+      active: 200,
+      navList: [
+        {name: '未使用', type: 200},
+        {name: '已使用', type: 100},
+        {name: '已过期', type: 300},
+      ],
+      list: [],
       loading: false, // 控制上拉加载
       finished: false // 数据全部加载完毕
     }
   },
   mounted () {
-
+    this.choose(this.active)
   },
   methods:{
     // 切换栏点击事件
-    choose (index) {
-      this.active = index
-      if (this.active !== 0) {
-        this.list = []
-      } else {
-        this.list = [1, 1, 1]
-      }
+    choose (type) {
+      this.active = type
+      this.init()
     },
-    onLoad() {
-      // 异步更新数据
-      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
-        console.log('on Load')
-        setTimeout(() => {
-        // this.loading = true
-        for (let i = 0; i < 3; i++) {
-          this.list.push('1');
-        }
-        // 加载状态结束
-        this.loading = false;
-        // 数据全部加载完成
-        if (this.list.length >= 9) {
-          this.finished = true;
-        }
-      }, 100);
+    init () {
+      this.$api.getVoucher({
+        coupon_state: this.active
+      }).then(res => {
+        this.list = res.data
+      })
     }
+    // 预留上拉加载
+    // onLoad() {
+    //   // 异步更新数据
+    //   // setTimeout 仅做示例，真实场景中一般为 ajax 请求
+    //     console.log('on Load')
+    //     setTimeout(() => {
+    //     // this.loading = true
+    //     for (let i = 0; i < 3; i++) {
+    //       this.list.push('1');
+    //     }
+    //     // 加载状态结束
+    //     this.loading = false;
+    //     // 数据全部加载完成
+    //     if (this.list.length >= 9) {
+    //       this.finished = true;
+    //     }
+    //   }, 100);
+    // }
 
   }
 }
@@ -133,7 +141,7 @@ export default {
         // 图片
         .shop-item-img{
           width: 100%;
-          height: 400px;
+          height: auto;
           display: block;
         }
         // 名称

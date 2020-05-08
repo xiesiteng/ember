@@ -1,7 +1,7 @@
 
 import Vue from 'vue'
 
-// ipad端扫码
+// ipad端微信扫码登录
 Vue.prototype.$ipadLogin = function() {
   var _this = this;
 //#ifdef H5
@@ -29,13 +29,12 @@ Vue.prototype.$ipadLogin = function() {
 //#endif	
 }
 
-// 公众号执行微信登录
+// 公众号点击执行微信登录
 Vue.prototype.$doLogin = function() {
 	  var _this = this;
-	//#ifdef H5
     var code = _this.$getQueryVariable("code");
-    var url = 'http://customer.scember.com/mine';
-    // var url = window.location.href;
+    // var url = 'http://customer.scember.com/mine';
+    var url = window.location.href;
 		if(this.$isblank(code)){			
       location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx520ed7fc5d46297f&redirect_uri="
                        + encodeURIComponent(url) + "&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect";
@@ -47,13 +46,39 @@ Vue.prototype.$doLogin = function() {
 				if(!_this.$isblank(res.data.token)){ 
           localStorage.setItem('user',JSON.stringify(res.data.user));
           localStorage.setItem('token', res.data.token);
-          // history.pushState({},'恩贝尔',_this.$delQueryVariable(url,"code"))
+          this.$store.commit('setFace', res.data.user.face)
+          this.$store.commit('setNickname', res.data.user.nickname)
+          // history.pushState({},'恩贝尔', 'http://localhost:8088/mine')
+          history.pushState({},'恩贝尔',_this.$delQueryVariable(url,"code"))
         }else{
           _this.$toast("登录失败");
         }
 			});
 		}
-	//#endif	
+}
+
+// 公众号页面加载完毕就执行微信登录
+Vue.prototype.$initLogin = function() {
+  var _this = this;
+  var code = _this.$getQueryVariable("code");
+  var url = window.location.href;
+  if (!this.$isblank(code)) {
+    _this.$api.wxLogin({
+      code: code
+    }).then(res => {
+      // console.log(res)
+      if(!_this.$isblank(res.data.token)){ 
+        localStorage.setItem('user',JSON.stringify(res.data.user));
+        localStorage.setItem('token', res.data.token);
+        this.$store.commit('setFace', res.data.user.face)
+        this.$store.commit('setNickname', res.data.user.nickname)
+        // history.pushState({},'恩贝尔', 'http://localhost:8088/mine')
+        history.pushState({},'恩贝尔',_this.$delQueryVariable(url,"code"))
+      }else{
+        _this.$toast("登录失败");
+      }
+    });
+  }
 }
 
 //获取url参数=====H5
@@ -75,7 +100,6 @@ Vue.prototype.$delQueryVariable = function(url, parameter) {
 		//参数名前缀
 		var prefix = encodeURIComponent(parameter) + '=';
 		var pars = urlparts[1].split(/[&;]/g);
-
 		//循环查找匹配参数
 		for(var i = pars.length; i-- > 0;) {
 			if(pars[i].lastIndexOf(prefix, 0) !== -1) {
@@ -83,10 +107,48 @@ Vue.prototype.$delQueryVariable = function(url, parameter) {
 				pars.splice(i, 1);
 			}
 		}
-
 		return urlparts[0] + (pars.length > 0 ? '?' + pars.join('&') : '');
 	}
 	return url;
+}
+
+// 解决微信支付内置对象不存在,唤起微信支付
+Vue.prototype.$callPay = function (data) {
+  if (typeof WeixinJSBridge == "undefined"){
+    if( document.addEventListener ){
+        document.addEventListener('WeixinJSBridgeReady', $jsApiCall, false);
+    }else if (document.attachEvent){
+        document.attachEvent('WeixinJSBridgeReady', $jsApiCall); 
+        document.attachEvent('onWeixinJSBridgeReady', $jsApiCall);
+    }
+  }else{
+      this.$jsApiCall(data);
+  }
+}
+
+// 微信支付
+Vue.prototype.$jsApiCall = function (data) {
+  var _this = this;
+  var jsApiParameters = JSON.parse(data);
+  // var url = window.location.href;
+  WeixinJSBridge.invoke(
+    'getBrandWCPayRequest',jsApiParameters,
+    function(res){
+      //如果支付成功
+      if (res.err_msg == 'get_brand_wcpay_request:ok') {
+        //支付成功后跳转的地址
+        _this.$router.push('/paySuccess')
+      }else if (res.err_msg == 'get_brand_wcpay_request:cancel') {
+        _this.$toast("用户取消支付");
+      }else if (res.err_msg == 'get_brand_wcpay_request:fail') {
+        _this.$toast("支付失败");
+      }else {
+        _this.$toast("未知错误");
+      }
+      //打印详细错误
+      alert(res.err_code+res.err_desc+res.err_msg);
+    }
+  );
 }
 
 
@@ -173,7 +235,7 @@ Vue.prototype.$timeFmt = function(time, type) {
 // 格式化处理金额, money: 金额数值
 Vue.prototype.$fmtMoney = function (money) {
   if (this.$isblank(money)) {
-    return '-'
+    return '0.00'
   } else{
     money = Number((parseInt(money) / 100)).toFixed(2)
     return money

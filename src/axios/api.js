@@ -31,10 +31,10 @@ const api = {
   updateMeal: data => post('/api/order/upgradeSetmeal', data),
 
   // ipad端获取微信支付二维码
-  getQrCode: data => post('/api/scanpay/getWachatPayQrcode', data),
+  getQrCode: data => post('/api/wechatpay/getWachatPayQrcode', data),
 
   // ipad端微信支付结果接口
-  getCodeResult: data => post('/api/scanpay/isScanPaySuccess', data),
+  getCodeResult: data => post('/api/wechatpay/isScanPaySuccess', data),
 
   // 手机端微信登录
   wxLogin: data => post('/api/login/wxOfficialLogin', data),
@@ -42,8 +42,26 @@ const api = {
   // ipad端扫码微信登录
   getIpadLogin: data => post('/api/login/wxOpenplatformLogin', data),
 
-  // 手机端微信支付
-  phoneWxPay: data => post('/api/Wxofficialpay/doPay', data)
+  // 手机商城判断用户是否绑定了手机号
+  whetherBindPhone: data => post('/api/user/userTelIsbind', data),
+
+  // 手机商城用户绑定手机号码
+  shopBindPhone: data => post('/api/user/wechatUserBindTel', data),
+
+  // 手机端商城下单
+  createdOrder: data => post('/api/goodsorder/insertGoodsOrder', data),
+
+  // 手机端商城商品详情页shopDetail.vue微信支付
+  shopDetailWxPay: data => post('/api/wechatpay/officialPay', data),
+
+  // 查询登录客户的电子券
+  getVoucher: data => post('/api/coupon/getUserCouponList', data),
+
+  // 查询登录客户的订单状态
+  getOrder: data => post('/api/goodsorder/getGoodsOrderList', data),
+
+  // 手机端测评后支付 pay.vue
+  testOverPay: data => post('/api/wechatpay/serviceOfficialPay', data)
 
 }
 

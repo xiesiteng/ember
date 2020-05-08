@@ -17,18 +17,25 @@
         </div>
         <img src="@/assets/images/close.png" alt="" class="close-img" @click="close()">
       </div>
-      <!-- 规格 -->
-      <div class="info-guige flex-between">
-        <span>规格</span>
-        <p>{{info.subtitle}}</p>
+      <div class="info-about">
+        <!-- 规格 -->
+        <div class="info-guige flex-between">
+          <span>规格</span>
+          <p>{{info.subtitle}}</p>
+        </div>
+        <!-- 数量 -->
+        <div class="info-number flex-between">
+          <span>数量</span>
+          <van-stepper v-model="value" min="1" max="10" integer/>
+        </div>
       </div>
-      <!-- 数量 -->
-      <div class="info-number flex-between">
-        <span>数量</span>
-        <van-stepper v-model="value"/>
+      <!-- 赠品 -->
+      <div class="info-gift" v-if="info.gift.length !== 0">
+        <div class="gift-title">附赠：</div>
+        <p class="gift-item" v-for="(item, index) in info.gift" :key="index">{{item.title}}</p>
       </div>
       <!-- 立即购买 -->
-      <button class="buyNow">立即购买</button>
+      <button class="buyNow" @click="pay()">立即购买</button>
     </div>
     </van-popup>
   </div>
@@ -66,6 +73,20 @@ export default {
     // 关闭弹窗
     close () {
       this.$store.commit('updateInfoShow', false)
+    },
+    // 立即购买支付
+    async pay () {
+      let result = await this.$api.createdOrder({ goods_id: this.info.id, number: this.value })
+      this.$api.shopDetailWxPay({
+        goodsorder_id: result.data
+      }).then(res => {
+        console.log(res)
+        let payData = res.data.data
+        if (payData) {
+          console.log(payData)
+          this.$callPay(payData)
+        }
+      })
     }
   }
 }
@@ -75,7 +96,10 @@ export default {
   .info-main{
     .info{
       width: 100%;
-      height: 480px;
+      min-height: 500px;
+      height: 100%;
+      padding-bottom: 100px;
+      box-sizing: border-box;
       background-color: #fff;
       position: relative;
       .info-head{
@@ -116,43 +140,54 @@ export default {
         }
         // 关闭
         .close-img{
-          width: 30px;
-          height: 30px;
+          width: 40px;
+          height: 40px;
           border-radius: 50%;
           position: absolute;
           top: 20px;
           right: 20px;
         }
       }
-      // 规格
-      .info-guige{
-        padding: 20px 20px 30px;
+      .info-about{
+        padding: 0 20px;
         box-sizing: border-box;
-        position: relative;
-        &::after{
-          content: '';
-          width: 95%;
+        // 规格
+        .info-guige{
+          padding: 20px 20px 30px;
           box-sizing: border-box;
-          height: 1px;
-          background-color: #f7f7f7;
-          position: absolute;
-          bottom: 0;
+          border-bottom: 1px solid #f5f5f5;
+          span{
+            font-size: 26px;
+          }
+          p{
+            font-size: 26px;
+            background-color: #eee;
+            padding: 5px 10px;
+          }
         }
-        span{
-          font-size: 26px;
-        }
-        p{
-          font-size: 26px;
-          background-color: #eee;
-          padding: 5px 10px;
+        // 数量
+        .info-number{
+          padding: 30px 20px;
+          box-sizing: border-box;
+          border-bottom: 1px solid #f5f5f5;
+          span{
+            font-size: 26px;
+          }
         }
       }
-      // 数量
-      .info-number{
-        padding: 30px 20px;
+      // 赠品
+      .info-gift{
+        padding: 20px 40px;
         box-sizing: border-box;
-        span{
-          font-size: 26px;
+        font-size: 26px;
+        .gift-title{
+          padding-bottom: 5px;
+          box-sizing: border-box;
+        }
+        .gift-item{
+          @extend .gift-title;
+          color: #666;
+          font-size: 24px;
         }
       }
       // 立即购买

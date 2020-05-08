@@ -45,7 +45,7 @@ export default {
       this.$api.getCode({
         account: this.phone
       }).then(res => {
-
+        this.$toast('验证码发送成功')
       })
     },
     // 确定
