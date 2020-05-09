@@ -33,20 +33,29 @@ export default {
     }
   },
   mounted () {
-    console.log(this.$route.query.redirect, '111')
+    this.turnPage()
   },
   methods: {
     // 勾选项check
     pick () {
       this.active = !this.active
     },
+    // 点击登录
     Login () {
       if (!this.active) {
         this.$toast('请您先勾选 我已阅读 选项框哟~')
         return false
       }
       // 执行微信登录
-      this.$router.push('/chooseSubscribe')
+      this.$doLogin()
+    },
+    // 手机端登录成功后跳转到chooseSubscribe.vue
+    async turnPage () {
+      let result = await this.$initLogin()
+      console.log(result);
+      if (result) {
+        this.$router.push('/chooseSubscribe')
+      }
     }
   }
 }

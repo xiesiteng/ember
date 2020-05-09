@@ -12,7 +12,7 @@
 export default {
   data () {
     return{
-      phoneNumber: '400-8023-8823'
+      phoneNumber: '400-0936-999'
     }
   }
 }

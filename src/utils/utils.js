@@ -59,26 +59,32 @@ Vue.prototype.$doLogin = function() {
 
 // 公众号页面加载完毕就执行微信登录
 Vue.prototype.$initLogin = function() {
-  var _this = this;
-  var code = _this.$getQueryVariable("code");
-  var url = window.location.href;
-  if (!this.$isblank(code)) {
-    _this.$api.wxLogin({
-      code: code
-    }).then(res => {
-      // console.log(res)
-      if(!_this.$isblank(res.data.token)){ 
-        localStorage.setItem('user',JSON.stringify(res.data.user));
-        localStorage.setItem('token', res.data.token);
-        this.$store.commit('setFace', res.data.user.face)
-        this.$store.commit('setNickname', res.data.user.nickname)
-        // history.pushState({},'恩贝尔', 'http://localhost:8088/mine')
-        history.pushState({},'恩贝尔',_this.$delQueryVariable(url,"code"))
-      }else{
-        _this.$toast("登录失败");
-      }
-    });
-  }
+  return new Promise((resolve, reject) => {
+    var _this = this;
+    var code = _this.$getQueryVariable("code");
+    var url = window.location.href;
+    if (!this.$isblank(code)) {
+      _this.$api.wxLogin({
+        code: code
+      }).then(res => {
+        // console.log(res)
+        if(!_this.$isblank(res.data.token)){ 
+          localStorage.setItem('user',JSON.stringify(res.data.user));
+          localStorage.setItem('token', res.data.token);
+          this.$store.commit('setFace', res.data.user.face)
+          this.$store.commit('setNickname', res.data.user.nickname)
+          // history.pushState({},'恩贝尔', 'http://localhost:8088/mine')
+          history.pushState({},'恩贝尔',_this.$delQueryVariable(url,"code"))
+          resolve(true)
+        }else{
+          _this.$toast("登录失败");
+          resolve(false)
+        }
+      });
+    } else{
+      resolve(false)
+    }
+  })
 }
 
 //获取url参数=====H5
@@ -146,13 +152,14 @@ Vue.prototype.$jsApiCall = function (data) {
         _this.$toast("未知错误");
       }
       //打印详细错误
-      alert(res.err_code+res.err_desc+res.err_msg);
+      // alert(res.err_code+res.err_desc+res.err_msg);
+      // console.log(res.err_code+res.err_desc+res.err_msg);
     }
   );
 }
 
 
-// 路由跳转，path为需要跳转的路由，eg： this.toTurn('/index')
+// 路由跳转，path为需要跳转的路由，eg： this.$toTurn('/index')
 Vue.prototype.$toTurn = function (path) {
   this.$router.push(path)
 }
@@ -170,7 +177,6 @@ Vue.prototype.$judgeUserAgent = function () {
                 // ipad用户
                 this.$store.commit('updateIsPad', true)
             }else{
-              console.log('pccc')
                 this.$store.commit('updateIsPad', true)
             }
           } catch(e){}
@@ -232,7 +238,7 @@ Vue.prototype.$timeFmt = function(time, type) {
   }
 }
 
-// 格式化处理金额, money: 金额数值
+// 格式化处理金额, money: 金额数值 eg: 1600.00
 Vue.prototype.$fmtMoney = function (money) {
   if (this.$isblank(money)) {
     return '0.00'

@@ -81,7 +81,7 @@ export default {
         goodsorder_id: result.data
       }).then(res => {
         console.log(res)
-        let payData = res.data.data
+        let payData = res.data
         if (payData) {
           console.log(payData)
           this.$callPay(payData)

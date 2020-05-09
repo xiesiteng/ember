@@ -31,6 +31,7 @@ export default {
       WX: true
     }
   },
+  props: ['coupon_id'],
   methods: {
     // 勾选项
     pickType (val) {
@@ -49,11 +50,11 @@ export default {
       if (this.WX) {
         this.$api.testOverPay({
           // goods_id: this.$store.state.goods_id
-          order_id,
-          coupon_id
+          order_id: this.$store.state.chooseSubscribeId,
+          coupon_id: this.coupon_id
         }).then(res => {
           console.log(res)
-          let payData = res.data.data
+          let payData = res.data
           if (payData) {
             this.$callPay(payData)
           }

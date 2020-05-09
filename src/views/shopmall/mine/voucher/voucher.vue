@@ -25,11 +25,12 @@
     > -->
       <div class="shop-wrap">
           <div class="shop-item" v-for="(item, index) in list" :key="index">
+            <!-- 接口中暂未返回，因此抵用券的图片数据暂未渲染 -->
             <img src="@/assets/images/health-test.png" alt="" class="shop-item-img">
-            <p class="shop-item-name">恩贝尔健康检测套餐抵用券A</p>
+            <p class="shop-item-name">{{item.goods_title}}</p>
             <div class="shop-item-info flex-between">
               <div class="price-wrap">
-                <span class="price"><i>¥ </i>1690.00</span>
+                <span class="price"><i>¥ </i>{{$fmtMoney(item.price)}}</span>
                 <!-- <span class="pre-price">¥1999.00</span> -->
               </div>
             </div>

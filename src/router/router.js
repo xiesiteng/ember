@@ -4,7 +4,7 @@ const allRouters = [
   {
     path: '/index',
     name: 'index',
-    title: '首页',
+    title: '测评首页',
     component: () => import('@/views/index/index'),
     meta: { requireAuth: false }
   },

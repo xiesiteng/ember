@@ -21,6 +21,7 @@ export default {
     }
   },
   created () {
+    return;
     this.$ipadLogin()
   },
   mounted () {

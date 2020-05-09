@@ -157,7 +157,7 @@ export default {
         this.list.forEach((item, index) => {
           // 再遍历答案列表数组
           item.optionlist.forEach((optionItem, optionIndex) => {
-            // option对象的初始化必须置于此处，否则可能存在对象深浅拷贝的问题
+            // option对象的初始化必须置于此处，否则可能存在对象深浅拷贝的问题   !!!!!!!!!
             let option = {}
             option.id = optionItem.id
             option.is_selected = optionItem.is_selected
